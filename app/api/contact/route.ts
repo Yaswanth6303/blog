@@ -4,7 +4,7 @@ import ContactEmail from "@/emails/ContactEmail";
 import { z } from "zod";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const TO_EMAIL = process.env.CONTACT_EMAIL || "mail@yourmail.com";
+const TO_EMAIL = process.env.CONTACT_EMAIL || "mail@yourdomain.com";
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "newsletter@yourdomain.com"; // Resend requires sending from a verified domain
 
 const contactSchema = z.object({

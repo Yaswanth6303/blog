@@ -23,7 +23,7 @@ export const BlogNotificationEmail = ({
   postTitle = "A New Article is Live",
   postExcerpt = "Check out my latest thoughts, ideas, and technical insights in this new article.",
   postSlug = "hello-world",
-  baseUrl = "https://blog.shellcraft.online",
+  baseUrl = "https://shellcraft.online",
   unsubscribeUrl,
 }: BlogNotificationProps) => (
   <Html>
@@ -45,7 +45,10 @@ export const BlogNotificationEmail = ({
         <Text style={footer}>
           You are receiving this because you subscribed to my digital notebook.
           If you no longer wish to receive these emails,{" "}
-          <Link href={unsubscribeUrl ?? `${baseUrl}/unsubscribe`} style={footerLink}>
+          <Link
+            href={unsubscribeUrl ?? `${baseUrl}/unsubscribe`}
+            style={footerLink}
+          >
             Unsubscribe
           </Link>
           .
