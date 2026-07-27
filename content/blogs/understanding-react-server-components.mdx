@@ -1,0 +1,81 @@
+---
+title: "Understanding React Server Components: A Paradigm Shift"
+excerpt: "React Server Components (RSC) fundamentally change how we build web applications by moving rendering back to the server. Here is why it matters and how it improves performance."
+category: "Software Engineering"
+tags: ["React", "Next.js", "Web Development", "Architecture"]
+image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&q=80"
+date: "July 26, 2026"
+authorName: "Yaswanth Gudivada"
+authorAvatar: "/images/author-avatar.png"
+featured: false
+---
+
+The release of Next.js App Router and React Server Components (RSC) introduced a monumental shift in how we architect modern web applications. For years, the industry leaned heavily into Single Page Applications (SPAs) where the browser did the heavy lifting. Now, the pendulum is swinging back to the server—but with a twist.
+
+In this article, we'll explore why React Server Components exist, the problems they solve, and how they seamlessly blend server-rendered HTML with rich, interactive client-side JavaScript.
+
+## The Problem with Traditional SPAs
+
+In a standard React application (Client Components), your browser downloads a large bundle of JavaScript. The browser parses it, executes it, and finally renders the UI. This approach has a few notable downsides:
+
+1. **Large Bundle Sizes:** Every library you import (like `moment.js` or complex Markdown parsers) gets shipped to the user's device.
+2. **Waterfalls:** Client-side data fetching often leads to network waterfalls. A component mounts, fetches data, renders child components, which then mount and fetch their own data.
+3. **SEO Challenges:** While Server-Side Rendering (SSR) helped mitigate this, the client still had to "hydrate" the entire page, meaning the browser still did a lot of work before the page became interactive.
+
+## Enter React Server Components
+
+React Server Components allow you to render components **exclusively on the server**. This means their code—and their dependencies—are never shipped to the browser.
+
+Here is what a typical Server Component looks like in Next.js:
+
+```tsx
+import db from "@/lib/db";
+
+// This component runs exclusively on the server!
+export async function ArticleList() {
+  const articles = await db.article.findMany();
+
+  return (
+    <ul>
+      {articles.map((article) => (
+        <li key={article.id}>{article.title}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+Notice how we can query the database directly inside the component? There are no `useEffect` hooks, no loading states, and no API endpoints to build just to fetch this data. The server executes this code, generates the UI, and sends it to the browser.
+
+### The "use client" Directive
+
+Of course, web applications need interactivity. You still need buttons, form states, and animations. This is where **Client Components** come in.
+
+By adding the `"use client"` directive to the top of a file, you signal to React that this component needs to run on the client (and hydrate).
+
+```tsx
+"use client";
+
+import { useState } from "react";
+
+export function LikeButton() {
+  const [likes, setLikes] = useState(0);
+
+  return <button onClick={() => setLikes(likes + 1)}>Like ({likes})</button>;
+}
+```
+
+If you try to use `useState` inside a Server Component, Next.js will throw an error telling you to mark it with `"use client"`.
+
+## The Best of Both Worlds
+
+The true magic of RSC is how they interleave. You can pass a Client Component as a child to a Server Component, or vice versa. This allows you to keep the vast majority of your application on the server (zero bundle size) while selectively sprinkling interactive Client Components exactly where you need them.
+
+### Key Takeaways
+
+- **Server by default:** In the Next.js App Router, all components are Server Components unless explicitly marked otherwise.
+- **Smaller bundles:** Heavy dependencies used in Server Components never reach the client.
+- **Direct backend access:** Query your database or access file systems directly within your components.
+- **Improved Performance:** Faster initial page loads and reduced JavaScript parsing on the user's device.
+
+The transition to RSC might feel jarring at first, but it represents a maturation of the React ecosystem—bringing the speed of traditional server-rendered apps back to the modern component era.

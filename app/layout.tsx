@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, Merriweather } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -6,6 +7,10 @@ import { ScrollToTop } from "@/components/scroll-to-top";
 import { CommandMenu } from "@/components/command-menu";
 import { getAllCategories, getAllPosts } from "@/lib/posts";
 import "./globals.css";
+
+// Inlined at build time, so it has to be set in the build environment
+// (Vercel project settings), not only at runtime.
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 const hankenGrotesk = Hanken_Grotesk({
   subsets: ["latin"],
@@ -81,6 +86,9 @@ export default async function RootLayout({
           <ScrollToTop />
           {process.env.NODE_ENV === "production" && <Analytics />}
         </ThemeProvider>
+        {process.env.NODE_ENV === "production" && GA_MEASUREMENT_ID && (
+          <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
+        )}
       </body>
     </html>
   );

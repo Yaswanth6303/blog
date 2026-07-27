@@ -16,6 +16,7 @@ interface BlogNotificationProps {
   postExcerpt: string;
   postSlug: string;
   baseUrl: string;
+  unsubscribeUrl?: string;
 }
 
 export const BlogNotificationEmail = ({
@@ -23,6 +24,7 @@ export const BlogNotificationEmail = ({
   postExcerpt = "Check out my latest thoughts, ideas, and technical insights in this new article.",
   postSlug = "hello-world",
   baseUrl = "https://blog.shellcraft.online",
+  unsubscribeUrl,
 }: BlogNotificationProps) => (
   <Html>
     <Head />
@@ -41,8 +43,12 @@ export const BlogNotificationEmail = ({
         </Section>
         <Hr style={hr} />
         <Text style={footer}>
-          You are receiving this because you subscribed to my digital notebook. 
-          If you no longer wish to receive these emails, you can unsubscribe below.
+          You are receiving this because you subscribed to my digital notebook.
+          If you no longer wish to receive these emails,{" "}
+          <Link href={unsubscribeUrl ?? `${baseUrl}/unsubscribe`} style={footerLink}>
+            Unsubscribe
+          </Link>
+          .
         </Text>
       </Container>
     </Body>
@@ -119,4 +125,10 @@ const footer = {
   color: "#9ca3af",
   fontSize: "12px",
   lineHeight: "20px",
+};
+
+const footerLink = {
+  color: "#6b7280",
+  fontSize: "12px",
+  textDecoration: "underline",
 };

@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { Resend } from "resend";
 import { render } from "@react-email/components";
 import BlogNotificationEmail from "../emails/BlogNotification";
+import { unsubscribeUrl } from "../lib/unsubscribe";
 import React from "react";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
@@ -49,38 +50,46 @@ async function broadcast(slug: string) {
 
     const subscribers = await prisma.subscriber.findMany({
       where: { active: true },
-      select: { email: true }
+      select: { email: true, unsubscribeToken: true }
     });
 
-    const emails = subscribers.map((s: { email: string }) => s.email);
-    console.log(`Found ${emails.length} active subscribers in the database.`);
+    console.log(`Found ${subscribers.length} active subscribers in the database.`);
 
-    if (emails.length === 0) {
+    if (subscribers.length === 0) {
       console.log("No subscribers found. Exiting.");
       await prisma.$disconnect();
       process.exit(0);
     }
 
-    // 3. Render HTML template
-    const html = await render(
-      React.createElement(BlogNotificationEmail, {
-        postTitle: data.title,
-        postExcerpt: data.excerpt,
-        postSlug: slug,
-        baseUrl: BASE_URL,
-      })
-    );
+    // 3. Render the email once per subscriber — each gets their own
+    //    unsubscribe link, so the footer link only affects that recipient.
+    const renderFor = (unsubscribeToken: string) =>
+      render(
+        React.createElement(BlogNotificationEmail, {
+          postTitle: data.title,
+          postExcerpt: data.excerpt,
+          postSlug: slug,
+          baseUrl: BASE_URL,
+          unsubscribeUrl: unsubscribeUrl(unsubscribeToken, BASE_URL),
+        })
+      );
 
     // 4. Batch send emails
     const BATCH_SIZE = 50;
-    for (let i = 0; i < emails.length; i += BATCH_SIZE) {
-      const batchEmails = emails.slice(i, i + BATCH_SIZE);
-      const batchPayload = batchEmails.map((email: string) => ({
-        from: `Yaswanth Gudivada <${FROM_EMAIL}>`,
-        to: [email],
-        subject: `New Article: ${data.title}`,
-        html: html,
-      }));
+    for (let i = 0; i < subscribers.length; i += BATCH_SIZE) {
+      const batch = subscribers.slice(i, i + BATCH_SIZE);
+      const batchPayload = await Promise.all(
+        batch.map(async (subscriber: { email: string; unsubscribeToken: string }) => ({
+          from: `Yaswanth Gudivada <${FROM_EMAIL}>`,
+          to: [subscriber.email],
+          subject: `New Article: ${data.title}`,
+          html: await renderFor(subscriber.unsubscribeToken),
+          headers: {
+            // Lets Gmail/Outlook show their own native unsubscribe control.
+            "List-Unsubscribe": `<${unsubscribeUrl(subscriber.unsubscribeToken, BASE_URL)}>`,
+          },
+        }))
+      );
 
       const { error } = await resend.batch.send(batchPayload);
 

@@ -11,4 +11,7 @@ model Subscriber {
   email        String   @unique
   subscribedAt DateTime @default(now())
   active       Boolean  @default(true)
+  // Opaque per-subscriber token for one-click unsubscribe links, so the
+  // email address never has to travel in a URL.
+  unsubscribeToken String @unique @default(cuid())
 }

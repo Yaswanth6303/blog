@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { Resend } from 'resend';
 import WelcomeEmail from '@/emails/WelcomeEmail';
+import { unsubscribeUrl } from '@/lib/unsubscribe';
 import { z } from 'zod';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -53,11 +54,13 @@ export async function POST(request: Request) {
 
     // Add new subscriber. A duplicate can still slip past the check above if
     // two requests race, so the unique-constraint violation is handled too.
+    let created;
     try {
-      await prisma.subscriber.create({
+      created = await prisma.subscriber.create({
         data: {
           email,
         },
+        select: { unsubscribeToken: true },
       });
     } catch (error: any) {
       if (error?.code === "P2002") {
@@ -76,7 +79,13 @@ export async function POST(request: Request) {
         from: `Yaswanth Gudivada <${FROM_EMAIL}>`,
         to: email,
         subject: 'Welcome to the newsletter!',
-        react: WelcomeEmail({ baseUrl: BASE_URL }),
+        react: WelcomeEmail({
+          baseUrl: BASE_URL,
+          unsubscribeUrl: unsubscribeUrl(created.unsubscribeToken, BASE_URL),
+        }),
+        headers: {
+          'List-Unsubscribe': `<${unsubscribeUrl(created.unsubscribeToken, BASE_URL)}>`,
+        },
       });
     } else {
       console.warn("Skipping Welcome Email: RESEND_API_KEY is missing");
