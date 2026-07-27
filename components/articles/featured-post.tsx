@@ -25,7 +25,9 @@ export async function FeaturedPost() {
             Featured
           </span>
           <h2 id="featured-heading" className="text-sm font-medium text-muted-foreground">
-            Editor&apos;s pick this week
+            {posts.length > 1
+              ? `${posts.length} picks worth starting with`
+              : "Worth starting with"}
           </h2>
         </div>
       </div>

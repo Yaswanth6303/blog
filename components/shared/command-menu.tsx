@@ -7,6 +7,7 @@ import {
   ArrowUp,
   CornerDownLeft,
   FileText,
+  FolderGit2,
   FolderOpen,
   Home,
   Info,
@@ -46,9 +47,18 @@ export type SearchCategory = {
   count: number
 }
 
+export type SearchProject = {
+  title: string
+  href: string
+  summary?: string
+  stack?: string[]
+  status?: string
+}
+
 const pages = [
   { label: "Home", href: "/", icon: Home },
   { label: "Articles", href: "/articles", icon: Newspaper },
+  { label: "Projects", href: "/projects", icon: FolderGit2 },
   { label: "Categories", href: "/categories", icon: FolderOpen },
   { label: "About", href: "/about", icon: Info },
   { label: "Contact", href: "/contact", icon: Mail },
@@ -76,9 +86,11 @@ function score(value: string, search: string, keywords?: string[]) {
 export function CommandMenu({
   data,
   categories = [],
+  projects = [],
 }: {
   data: SearchItem[]
   categories?: SearchCategory[]
+  projects?: SearchProject[]
 }) {
   const [open, setOpen] = React.useState(false)
   const [mounted, setMounted] = React.useState(false)
@@ -116,7 +128,7 @@ export function CommandMenu({
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
       <Command loop className="rounded-xl" filter={score}>
-        <CommandInput placeholder="Search articles, categories and pages…" />
+        <CommandInput placeholder="Search articles, projects and pages…" />
 
         <CommandList>
           <CommandEmpty>
@@ -152,6 +164,39 @@ export function CommandMenu({
                 </CommandItem>
               ))}
             </CommandGroup>
+          )}
+
+          {projects.length > 0 && (
+            <>
+              <CommandSeparator />
+              <CommandGroup heading="Projects">
+                {projects.map((project) => (
+                  <CommandItem
+                    key={project.href}
+                    value={`project ${project.title} ${project.summary ?? ""}`}
+                    keywords={project.stack ?? []}
+                    onSelect={() => runCommand(() => router.push(project.href))}
+                  >
+                    <FolderGit2 className="text-muted-foreground" />
+                    <span className="flex min-w-0 flex-1 flex-col">
+                      <span className="truncate font-medium">
+                        {project.title}
+                      </span>
+                      {project.stack && project.stack.length > 0 && (
+                        <span className="truncate text-xs text-muted-foreground">
+                          {project.stack.join(" · ")}
+                        </span>
+                      )}
+                    </span>
+                    {project.status && (
+                      <span className="ml-2 shrink-0 rounded-sm bg-secondary px-2 py-0.5 text-[10px] font-medium tracking-wider text-muted-foreground uppercase">
+                        {project.status}
+                      </span>
+                    )}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </>
           )}
 
           {categories.length > 0 && (

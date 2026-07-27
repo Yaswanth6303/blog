@@ -2,10 +2,12 @@ import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, Merriweather } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
-import { ScrollToTop } from "@/components/scroll-to-top";
-import { CommandMenu } from "@/components/command-menu";
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import { ScrollToTop } from "@/components/shared/scroll-to-top";
+import { CommandMenu } from "@/components/shared/command-menu";
 import { getAllCategories, getAllPosts } from "@/lib/posts";
+import { getAllProjects } from "@/lib/projects";
+import "devicon/devicon.min.css";
 import "./globals.css";
 
 // Inlined at build time, so it has to be set in the build environment
@@ -47,9 +49,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [posts, categories] = await Promise.all([
+  const [posts, categories, projects] = await Promise.all([
     getAllPosts(),
     getAllCategories(),
+    getAllProjects(),
   ]);
 
   const searchData = posts.map((p) => ({
@@ -59,6 +62,14 @@ export default async function RootLayout({
     readingTime: p.readingTime,
     excerpt: p.excerpt,
     tags: p.tags,
+  }));
+
+  const searchProjects = projects.map((p) => ({
+    title: p.title,
+    href: `/projects/${p.slug}`,
+    summary: p.summary,
+    stack: p.stack,
+    status: p.status,
   }));
 
   const searchCategories = categories.map((c) => ({
@@ -82,7 +93,11 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           {children}
-          <CommandMenu data={searchData} categories={searchCategories} />
+          <CommandMenu
+            data={searchData}
+            categories={searchCategories}
+            projects={searchProjects}
+          />
           <ScrollToTop />
           {process.env.NODE_ENV === "production" && <Analytics />}
         </ThemeProvider>

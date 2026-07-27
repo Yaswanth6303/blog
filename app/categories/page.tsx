@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { BlogHeader } from "@/components/blog-header"
-import { BlogFooter } from "@/components/blog-footer"
+import { BlogHeader } from "@/components/layout/blog-header"
+import { BlogFooter } from "@/components/layout/blog-footer"
 import { getAllCategories } from "@/lib/posts"
 import { ArrowRight, FileText } from "lucide-react"
-import { FadeIn, StaggerContainer, StaggerItem } from "@/components/motion"
+import { FadeIn, StaggerContainer, StaggerItem } from "@/components/shared/motion"
 
 export const metadata: Metadata = {
   title: "Categories",

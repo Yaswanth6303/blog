@@ -1,0 +1,64 @@
+---
+title: "Personal Blog & Newsletter Platform"
+summary: "The site you are reading. A file-based MDX blog with a Postgres-backed newsletter that emails subscribers automatically whenever a new article is pushed to GitHub."
+stack:
+  [
+    "Next.js",
+    "TypeScript",
+    "Tailwind CSS",
+    "Prisma",
+    "PostgreSQL",
+    "Resend",
+    "GitHub Actions",
+  ]
+repo: "https://github.com/Yaswanth6303/blog"
+demo: "https://shellcraft.online"
+image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&q=80"
+date: "July 27, 2026"
+period: "2026 - Present"
+role: "Design & engineering"
+status: "in-progress"
+featured: true
+---
+
+This site started as a place to keep notes and turned into a small publishing system. Articles are plain MDX files in the repository, and pushing one to `main` is the entire publish flow — the deploy, the RSS feed, and the subscriber email all follow from that single `git push`.
+
+## Why build it instead of using a platform
+
+Hosted platforms handle writing well but own the surrounding surface: the URL structure, the email list, the styling, the analytics. Since the goal was to actually learn the stack rather than just publish on it, owning those pieces was the point.
+
+The constraint I set was that **writing must stay frictionless**. If publishing required more than adding a file and committing it, I would stop writing. Everything below follows from that.
+
+## Content pipeline
+
+Posts live in `content/blogs/*.mdx` with YAML frontmatter for the title, excerpt, category, tags, and cover image. At build time they are read from disk, parsed with `gray-matter`, and rendered with `next-mdx-remote`.
+
+The renderer maps every HTML element MDX can emit to a styled component, which is what keeps typography consistent across posts without any per-post CSS. Code blocks run through `rehype-pretty-code` for compile-time syntax highlighting, so no highlighter ships to the browser.
+
+Reading time is derived from the word count rather than stored in frontmatter — one less field to keep accurate by hand.
+
+### Table of contents
+
+The "On this page" sidebar renders a single SVG path that traces the heading hierarchy and curves between indentation levels. Each link's position is measured after layout, an `IntersectionObserver` tracks which section is on screen, and the active range is revealed by animating a `clip-path` inset over a highlighted copy of the path.
+
+## The newsletter
+
+Subscribers live in Postgres, accessed through Prisma with the `pg` driver adapter. The subscribe endpoint normalizes and validates the address with Zod, treats a returning inactive subscriber as a reactivation, and handles the unique-constraint violation directly so two simultaneous requests cannot create duplicate rows.
+
+Every subscriber gets an opaque unsubscribe token at signup. That token — never the email address — is what travels in unsubscribe URLs, so the link cannot be edited to unsubscribe somebody else. It is also sent as a `List-Unsubscribe` header, which is what lets Gmail render its own unsubscribe control next to the sender name.
+
+## Publishing is a git push
+
+A GitHub Actions workflow watches pushes to `main` and diffs the commit range for **added** files under `content/blogs/`:
+
+```bash
+git diff --name-only --diff-filter=A "$BASE" "$AFTER" -- 'content/blogs/*.mdx'
+```
+
+`--diff-filter=A` is the important flag. Publishing a post usually means two file changes: the new article, and an edit to the previous one demoting it from featured. Filtering to additions means only the genuinely new post triggers an email, and edits to existing posts never re-notify anyone.
+
+The base revision needs care too. On a repository's first push there is no parent commit, so the workflow falls back to git's empty-tree hash rather than letting `rev-parse` silently produce an unusable revision.
+
+## What I would change
+
+The broadcast job is not idempotent — re-running it re-sends the email, because nothing records which posts have already been announced. A small `SentBroadcast` table keyed on the slug would fix it, and that is the next thing on the list.

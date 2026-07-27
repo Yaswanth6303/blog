@@ -4,7 +4,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 const SITE_TITLE = "Yaswanth Gudivada";
 const SITE_DESCRIPTION =
-  "A personal blog about software engineering, system design, and technology.";
+  "Software engineering, system design, and continuous learning.";
 
 function escapeXml(value: string) {
   return value

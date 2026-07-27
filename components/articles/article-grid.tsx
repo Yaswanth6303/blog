@@ -1,6 +1,6 @@
 import { getAllCategories, getAllPosts } from "@/lib/posts"
 import Link from "next/link"
-import { StaggerContainer, StaggerItem } from "./motion"
+import { StaggerContainer, StaggerItem } from "@/components/shared/motion"
 import { FileText } from "lucide-react"
 
 export async function ArticleGrid() {

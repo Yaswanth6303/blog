@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
-import { BlogHeader } from "@/components/blog-header"
-import { BlogFooter } from "@/components/blog-footer"
-import { ArticlesBrowser } from "@/components/articles-browser"
+import { BlogHeader } from "@/components/layout/blog-header"
+import { BlogFooter } from "@/components/layout/blog-footer"
+import { ArticlesBrowser } from "@/components/articles/articles-browser"
 import { getAllPosts, getAllTags } from "@/lib/posts"
-import { FadeIn } from "@/components/motion"
+import { FadeIn } from "@/components/shared/motion"
 
 export const metadata: Metadata = {
   title: "Articles",

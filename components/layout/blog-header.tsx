@@ -5,13 +5,15 @@ import Link from "next/link";
 import { Menu, Search, X, BookOpenText } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Categories is reachable from the articles browser and stays crawlable at
+// /categories — it just no longer costs a slot in the primary nav.
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Articles", href: "/articles" },
-  { label: "Categories", href: "/categories" },
+  { label: "Projects", href: "/projects" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -61,7 +63,7 @@ export function BlogHeader() {
             <Search className="size-4" aria-hidden="true" />
           </Button>
           <ThemeToggle />
-          <Link href="/#newsletter" className={cn(buttonVariants(), "hidden sm:inline-flex")}>Subscribe</Link>
+          <Link href="/newsletter" className={cn(buttonVariants(), "hidden sm:inline-flex")}>Subscribe</Link>
           <Button
             variant="ghost"
             size="icon"
@@ -113,10 +115,8 @@ export function BlogHeader() {
                   <Search className="size-4" aria-hidden="true" />
                   Search
                 </Button>
-                <div className="flex items-center justify-center rounded-md border border-border">
-                  <ThemeToggle />
-                </div>
-                <Link href="/#newsletter" className={cn(buttonVariants(), "flex-1")} onClick={() => setMobileOpen(false)}>Subscribe</Link>
+
+                <Link href="/newsletter" className={cn(buttonVariants(), "flex-1")} onClick={() => setMobileOpen(false)}>Subscribe</Link>
               </li>
             </ul>
           </motion.nav>

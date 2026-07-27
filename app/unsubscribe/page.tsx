@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
-import { BlogHeader } from "@/components/blog-header";
-import { BlogFooter } from "@/components/blog-footer";
+import { BlogHeader } from "@/components/layout/blog-header";
+import { BlogFooter } from "@/components/layout/blog-footer";
 import { CheckCircle2, AlertCircle } from "lucide-react";
 
 export const metadata = {
@@ -49,7 +49,7 @@ export default async function UnsubscribePage({
                 Sorry to see you go.
               </p>
               <Link
-                href="/#newsletter"
+                href="/newsletter"
                 className="mt-6 inline-block text-sm font-medium text-primary underline underline-offset-4"
               >
                 Changed your mind? Subscribe again
