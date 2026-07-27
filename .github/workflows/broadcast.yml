@@ -1,0 +1,135 @@
+name: Broadcast New Blog Post
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'content/blogs/*.mdx'
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: 'Post slug to broadcast (e.g. introduction-to-java-02)'
+        required: true
+        type: string
+
+# Queue overlapping runs instead of cancelling them, so a follow-up push
+# cannot kill a send that is already in flight.
+concurrency:
+  group: broadcast-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # ---------------------------------------------------------------------
+  # Work out which posts are NEW. Editing an existing post — flipping
+  # `featured: true` -> `false` on the previous article, say — is a
+  # modification, not an addition, and is intentionally never broadcast.
+  # ---------------------------------------------------------------------
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      slugs: ${{ steps.detect.outputs.slugs }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # full history, so we can diff against the pre-push commit
+
+      - name: Detect newly added posts
+        id: detect
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          MANUAL_SLUG: ${{ inputs.slug }}
+        run: |
+          set -euo pipefail
+
+          if [ -n "${MANUAL_SLUG:-}" ]; then
+            echo "Manual run requested for: $MANUAL_SLUG"
+            echo "slugs=$MANUAL_SLUG" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          EMPTY_TREE="$(git hash-object -t tree /dev/null)"
+
+          if git cat-file -e "${BEFORE:-}^{commit}" 2>/dev/null; then
+            # Ordinary push: diff against whatever main pointed at before.
+            BASE="$BEFORE"
+          else
+            # First push of a branch, or a force-push whose base is gone.
+            # --verify --quiet matters: a bare `git rev-parse <sha>^` prints the
+            # unresolved string back on failure, which would hand `git diff` a
+            # bogus revision and silently match nothing.
+            BASE="$(git rev-parse --verify --quiet "${AFTER}^" || echo "$EMPTY_TREE")"
+          fi
+
+          if [ "$BASE" = "$EMPTY_TREE" ]; then
+            echo "No parent commit — treating this as the repository's initial import."
+          fi
+          echo "Comparing $BASE -> $AFTER"
+
+          SLUGS="$(
+            git diff --name-only --diff-filter=A "$BASE" "$AFTER" -- 'content/blogs/*.mdx' \
+              | xargs -r -n1 basename \
+              | sed 's/\.mdx$//' \
+              | tr '\n' ' ' \
+              | xargs || true
+          )"
+
+          echo "Newly added posts: ${SLUGS:-none}"
+          echo "slugs=$SLUGS" >> "$GITHUB_OUTPUT"
+
+  # ---------------------------------------------------------------------
+  # Mail the subscribers. Skipped entirely when nothing new was added.
+  # ---------------------------------------------------------------------
+  send:
+    needs: detect
+    if: needs.detect.outputs.slugs != ''
+    runs-on: ubuntu-latest
+    env:
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      RESEND_FROM_EMAIL: ${{ secrets.RESEND_FROM_EMAIL }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # Fail here with a readable message rather than deep inside Prisma or Resend.
+      - name: Verify required secrets
+        run: |
+          set -euo pipefail
+          MISSING=""
+          for NAME in RESEND_API_KEY RESEND_FROM_EMAIL DATABASE_URL NEXT_PUBLIC_SITE_URL; do
+            if [ -z "${!NAME:-}" ]; then
+              MISSING="$MISSING $NAME"
+            fi
+          done
+          if [ -n "$MISSING" ]; then
+            echo "::error::Missing repository secrets:$MISSING — add them under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+          echo "All required secrets are present."
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      # @prisma/client v7 ships no postinstall hook, and prisma.config.ts reads
+      # DATABASE_URL at load time, so this needs the secret to be set.
+      - name: Generate Prisma client
+        run: bunx prisma generate
+
+      - name: Broadcast new posts
+        env:
+          SLUGS: ${{ needs.detect.outputs.slugs }}
+        run: |
+          set -euo pipefail
+          for SLUG in $SLUGS; do
+            echo "Broadcasting $SLUG..."
+            bun run broadcast "$SLUG"
+          done
