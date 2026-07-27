@@ -65,8 +65,7 @@ export function AboutNav() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 pb-12 md:px-6 md:pb-16">
-      <div className="mt-12 border-t border-border pt-8">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {prevPage ? (
             <Link
               href={prevPage.href}
@@ -105,7 +104,6 @@ export function AboutNav() {
             </Link>
           )}
         </div>
-      </div>
     </div>
   );
 }
