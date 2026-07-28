@@ -58,7 +58,8 @@ export default function Page() {
                   Read the articles
                 </Link>
                 <Link
-                  href="/about/resume"
+                  href="/pdfs/resume.pdf"
+                  target="_blank"
                   className="group relative inline-flex items-center justify-center rounded-md p-px"
                 >
                   <span className="absolute inset-0 rounded-sm bg-linear-to-r from-blue-500 via-purple-500 to-pink-500" />
