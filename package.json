@@ -12,6 +12,10 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
+    "@iconify-json/devicon-plain": "^1.2.57",
+    "@iconify-json/lucide": "^1.2.120",
+    "@iconify-json/simple-icons": "^1.2.92",
+    "@iconify/react": "^6.0.2",
     "@next/third-parties": "16.2.6",
     "@prisma/adapter-pg": "^7.9.0",
     "@prisma/client": "^7.9.0",
@@ -20,7 +24,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
-    "devicon": "^2.17.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.42.2",
     "fs": "^0.0.1-security",
@@ -43,6 +46,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@iconify/utils": "^3.1.4",
     "@tailwindcss/postcss": "^4.2.0",
     "@types/mdx": "^2.0.14",
     "@types/node": "^24",

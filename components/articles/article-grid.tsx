@@ -1,7 +1,7 @@
 import { getAllCategories, getAllPosts } from "@/lib/posts"
 import Link from "next/link"
 import { StaggerContainer, StaggerItem } from "@/components/shared/motion"
-import { FileText } from "lucide-react"
+import { Icon } from "@/components/ui/icon"
 
 export async function ArticleGrid() {
   const posts = await getAllPosts()
@@ -45,7 +45,7 @@ export async function ArticleGrid() {
       {gridPosts.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card py-24 text-center">
           <div className="rounded-full bg-secondary p-4">
-            <FileText className="size-8 text-muted-foreground" />
+            <Icon icon="lucide:file-text" className="size-8 text-muted-foreground" />
           </div>
           <h3 className="mt-4 text-xl font-semibold tracking-tight">No articles published yet</h3>
           <p className="mt-2 text-base text-muted-foreground max-w-sm">

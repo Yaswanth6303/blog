@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, Search, X, BookOpenText } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
@@ -59,7 +59,7 @@ export function BlogHeader() {
             className="hidden sm:inline-flex"
             onClick={() => window.dispatchEvent(new CustomEvent("open-search"))}
           >
-            <Search className="size-4" aria-hidden="true" />
+            <Icon icon="lucide:search" className="size-4" aria-hidden="true" />
           </Button>
           <ThemeToggle />
           <Link href="/newsletter" className={cn(buttonVariants(), "hidden sm:inline-flex")}>Subscribe</Link>
@@ -72,9 +72,9 @@ export function BlogHeader() {
             onClick={() => setMobileOpen((open) => !open)}
           >
             {mobileOpen ? (
-              <X className="size-5" aria-hidden="true" />
+              <Icon icon="lucide:x" className="size-5" aria-hidden="true" />
             ) : (
-              <Menu className="size-5" aria-hidden="true" />
+              <Icon icon="lucide:menu" className="size-5" aria-hidden="true" />
             )}
           </Button>
         </div>
@@ -111,7 +111,7 @@ export function BlogHeader() {
                     window.dispatchEvent(new CustomEvent("open-search"));
                   }}
                 >
-                  <Search className="size-4" aria-hidden="true" />
+                  <Icon icon="lucide:search" className="size-4" aria-hidden="true" />
                   Search
                 </Button>
 

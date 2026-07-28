@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, MapPin, Clock } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { BlogHeader } from "@/components/layout/blog-header";
 import { BlogFooter } from "@/components/layout/blog-footer";
 import { ContactForm } from "@/components/shared/contact-form";
@@ -13,20 +13,20 @@ export const metadata: Metadata = {
 
 const contactDetails = [
   {
-    icon: Mail,
+    icon: "lucide:mail",
     label: "Email",
     value: "yswnthdev@gmail.com",
     href: "mailto:yswnthdev@gmail.com",
     hint: "We reply within 2 business days.",
   },
   {
-    icon: MapPin,
+    icon: "lucide:map-pin",
     label: "Location",
     value: "Bapatla, Andhra Pradesh, India",
     hint: "Remote-first, working worldwide.",
   },
   {
-    icon: Clock,
+    icon: "lucide:clock",
     label: "Office hours",
     value: "Mon-Fri, 9am-5pm PT",
     hint: "Weekend replies may be slower.",
@@ -66,14 +66,17 @@ export default function ContactPage() {
               aria-label="Contact details"
             >
               {contactDetails.map((detail) => {
-                const Icon = detail.icon;
                 return (
                   <StaggerItem
                     key={detail.label}
                     className="flex gap-4 rounded-xl border border-border bg-card p-5"
                   >
                     <span className="flex size-10 shrink-0 items-center justify-center rounded-md bg-secondary text-foreground">
-                      <Icon className="size-5" aria-hidden="true" />
+                      <Icon
+                        icon={detail.icon}
+                        className="size-5"
+                        aria-hidden="true"
+                      />
                     </span>
                     <div>
                       <h2 className="text-sm font-medium text-muted-foreground">

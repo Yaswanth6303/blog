@@ -1,57 +1,63 @@
-import { customIcons } from "./icons"
+import { Icon } from "@/components/ui/icon"
 
+/**
+ * Tech name -> Iconify icon. `simple-icons` is the default set because its
+ * logos are monochrome and inherit `currentColor`, which is how these icons
+ * were rendered before. Java has no simple-icons entry, so it falls back to
+ * the (also monochrome) devicon-plain set.
+ */
 const icons: Record<string, string> = {
-  nextjs: "devicon-nextjs-plain",
-  react: "devicon-react-original",
-  typescript: "devicon-typescript-plain",
-  javascript: "devicon-javascript-plain",
-  tailwindcss: "devicon-tailwindcss-plain",
-  tailwind: "devicon-tailwindcss-plain",
-  html: "devicon-html5-plain",
-  html5: "devicon-html5-plain",
-  css: "devicon-css3-plain",
-  framermotion: "devicon-framermotion-original",
-  framer: "devicon-framermotion-original",
-  mdx: "devicon-markdown-original",
-  shadcnui: "",
-  zod: "",
-  trpc: "",
-  graphql: "devicon-graphql-plain",
-  nodejs: "devicon-nodejs-plain",
-  node: "devicon-nodejs-plain",
-  bun: "devicon-bun-plain",
-  express: "devicon-express-original",
-  expressjs: "devicon-express-original",
-  go: "devicon-go-original-wordmark",
-  golang: "devicon-go-original-wordmark",
-  rust: "devicon-rust-plain",
-  python: "devicon-python-plain",
-  java: "devicon-java-plain",
-  django: "devicon-django-plain",
-  flask: "devicon-flask-original",
-  fastapi: "devicon-fastapi-plain",
-  spring: "devicon-spring-plain",
-  springboot: "devicon-spring-plain",
-  postgresql: "devicon-postgresql-plain",
-  postgres: "devicon-postgresql-plain",
-  prisma: "devicon-prisma-original",
-  mongodb: "devicon-mongodb-plain",
-  mongo: "devicon-mongodb-plain",
-  redis: "devicon-redis-plain",
-  supabase: "devicon-supabase-plain",
-  firebase: "devicon-firebase-plain",
-  docker: "devicon-docker-plain",
-  kubernetes: "devicon-kubernetes-plain",
-  k8s: "devicon-kubernetes-plain",
-  linux: "devicon-linux-plain",
-  git: "devicon-git-plain",
-  github: "devicon-github-original",
-  githubactions: "devicon-githubactions-plain",
-  cicd: "devicon-githubactions-plain",
-  vercel: "devicon-vercel-original",
-  googlecloud: "devicon-googlecloud-plain",
-  gcp: "devicon-googlecloud-plain",
-  resend: "",
+  nextjs: "simple-icons:nextdotjs",
+  react: "simple-icons:react",
+  typescript: "simple-icons:typescript",
+  javascript: "simple-icons:javascript",
+  tailwindcss: "simple-icons:tailwindcss",
+  tailwind: "simple-icons:tailwindcss",
+  html: "simple-icons:html5",
+  html5: "simple-icons:html5",
+  css: "simple-icons:css",
+  framermotion: "simple-icons:framer",
+  framer: "simple-icons:framer",
+  mdx: "simple-icons:markdown",
+  shadcnui: "simple-icons:shadcnui",
+  zod: "simple-icons:zod",
+  trpc: "simple-icons:trpc",
+  graphql: "simple-icons:graphql",
+  nodejs: "simple-icons:nodedotjs",
+  node: "simple-icons:nodedotjs",
+  bun: "simple-icons:bun",
+  express: "simple-icons:express",
+  expressjs: "simple-icons:express",
+  go: "simple-icons:go",
+  golang: "simple-icons:go",
+  rust: "simple-icons:rust",
+  python: "simple-icons:python",
+  java: "devicon-plain:java",
+  django: "simple-icons:django",
+  flask: "simple-icons:flask",
+  fastapi: "simple-icons:fastapi",
+  spring: "simple-icons:springboot",
+  springboot: "simple-icons:springboot",
+  postgresql: "simple-icons:postgresql",
+  postgres: "simple-icons:postgresql",
+  prisma: "simple-icons:prisma",
+  mongodb: "simple-icons:mongodb",
+  mongo: "simple-icons:mongodb",
+  redis: "simple-icons:redis",
+  supabase: "simple-icons:supabase",
+  firebase: "simple-icons:firebase",
+  docker: "simple-icons:docker",
+  kubernetes: "simple-icons:kubernetes",
+  k8s: "simple-icons:kubernetes",
+  linux: "simple-icons:linux",
+  git: "simple-icons:git",
+  github: "simple-icons:github",
+  githubactions: "simple-icons:githubactions",
+  cicd: "simple-icons:githubactions",
+  vercel: "simple-icons:vercel",
+  googlecloud: "simple-icons:googlecloud",
+  gcp: "simple-icons:googlecloud",
+  resend: "simple-icons:resend",
 }
 
 function normalize(name: string) {
@@ -65,19 +71,13 @@ export function TechIcon({
   name: string
   className?: string
 }) {
-  const normalized = normalize(name)
-  
-  const CustomIcon = customIcons[normalized as keyof typeof customIcons]
-  if (CustomIcon) {
-    return <CustomIcon className={`shrink-0 ${className}`} aria-hidden="true" />
-  }
-
-  const icon = icons[normalized]
+  const icon = icons[normalize(name)]
   if (!icon) return null
 
   return (
-    <i
-      className={`${icon} shrink-0 ${className}`}
+    <Icon
+      icon={icon}
+      className={`shrink-0 ${className}`}
       aria-hidden="true"
     />
   )

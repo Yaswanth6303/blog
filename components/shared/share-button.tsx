@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Check, Share2 } from "lucide-react"
+import { Icon } from "@/components/ui/icon"
 
 export function ShareButton({ className }: { className?: string }) {
   const [copied, setCopied] = useState(false)
@@ -43,9 +43,9 @@ export function ShareButton({ className }: { className?: string }) {
       className={className}
     >
       {copied ? (
-        <Check className="size-4" aria-hidden="true" />
+        <Icon icon="lucide:check" className="size-4" aria-hidden="true" />
       ) : (
-        <Share2 className="size-4" aria-hidden="true" />
+        <Icon icon="lucide:share-2" className="size-4" aria-hidden="true" />
       )}
     </button>
   )

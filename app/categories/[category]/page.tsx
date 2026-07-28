@@ -6,7 +6,7 @@ import { BlogFooter } from "@/components/layout/blog-footer"
 import { ArticlesBrowser } from "@/components/articles/articles-browser"
 import { getAllPosts, getAllTags, getAllCategories } from "@/lib/posts"
 import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
+import { Icon } from "@/components/ui/icon"
 import { sortWithOrderAndDate } from "@/lib/utils"
 
 export async function generateStaticParams() {
@@ -57,7 +57,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
                 href="/categories" 
                 className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
-                <ArrowLeft className="mr-2 size-4" />
+                <Icon icon="lucide:arrow-left" className="mr-2 size-4" />
                 All Categories
               </Link>
             </div>

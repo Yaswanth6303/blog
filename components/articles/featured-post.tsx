@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react"
+import { Icon } from "@/components/ui/icon"
 import { buttonVariants } from "@/components/ui/button"
 import { getFeaturedPosts } from "@/lib/posts"
 import Link from "next/link"
@@ -68,7 +68,7 @@ export async function FeaturedPost() {
                   <div className="pt-2">
                     <Link href={`/articles/${post.slug}`} className={buttonVariants()}>
                       Read article
-                      <ArrowRight className="size-4" aria-hidden="true" />
+                      <Icon icon="lucide:arrow-right" className="size-4" aria-hidden="true" />
                     </Link>
                   </div>
                 </div>

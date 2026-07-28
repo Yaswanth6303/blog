@@ -3,7 +3,7 @@ import Link from "next/link"
 import { BlogHeader } from "@/components/layout/blog-header"
 import { BlogFooter } from "@/components/layout/blog-footer"
 import { getAllCategories } from "@/lib/posts"
-import { ArrowRight, FileText } from "lucide-react"
+import { Icon } from "@/components/ui/icon"
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/shared/motion"
 
 export const metadata: Metadata = {
@@ -36,7 +36,7 @@ export default async function CategoriesPage() {
           {categories.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card py-24 text-center">
               <div className="rounded-full bg-secondary p-4">
-                <FileText className="size-8 text-muted-foreground" />
+                <Icon icon="lucide:file-text" className="size-8 text-muted-foreground" />
               </div>
               <h3 className="mt-4 text-xl font-semibold tracking-tight">No categories found</h3>
               <p className="mt-2 text-base text-muted-foreground max-w-sm">
@@ -74,7 +74,7 @@ export default async function CategoriesPage() {
                       </h2>
                       <div className={`flex items-center justify-between text-sm ${category.featuredImage ? 'text-white/80' : 'text-muted-foreground'}`}>
                         <span>{category.count} {category.count === 1 ? 'article' : 'articles'}</span>
-                        <ArrowRight className="size-4 -translate-x-4 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
+                        <Icon icon="lucide:arrow-right" className="size-4 -translate-x-4 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
                       </div>
                     </div>
                   </Link>

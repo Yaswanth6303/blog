@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import { Icon } from "@/components/ui/icon"
 import { getFeaturedProjects } from "@/lib/projects"
 import { ProjectCard } from "@/components/projects/project-card"
 import { StaggerContainer, StaggerItem } from "@/components/shared/motion"
@@ -27,7 +27,7 @@ export async function FeaturedProjects() {
           className="group inline-flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
           All projects
-          <ArrowRight className="ml-1.5 size-4 transition-transform group-hover:translate-x-0.5" />
+          <Icon icon="lucide:arrow-right" className="ml-1.5 size-4 transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
 

@@ -4,7 +4,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { BlogHeader } from "@/components/layout/blog-header";
 import { BlogFooter } from "@/components/layout/blog-footer";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { TableOfContents } from "@/components/articles/table-of-contents";
 import { FadeIn, ScaleUp } from "@/components/shared/motion";
 import { ReadingProgress } from "@/components/articles/reading-progress";
@@ -114,7 +114,7 @@ export default async function ArticlePage({
                 href={fromCategory ? `/categories/${fromCategory}${queryString.replace(`from=${fromCategory}`, '').replace(/^[?&]+/, '?').replace(/&$/, '')}` : `/articles${queryString}`}
                 className="inline-flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
-                <ArrowLeft className="mr-2 size-4" />
+                <Icon icon="lucide:arrow-left" className="mr-2 size-4" />
                 {fromCategory ? "Back to Categories" : "Back to articles"}
               </Link>
             </div>
@@ -202,7 +202,7 @@ export default async function ArticlePage({
                           className="group flex flex-col gap-3 rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-md"
                         >
                           <div className="flex items-center text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                            <ArrowLeft className="mr-2 size-4 transition-transform group-hover:-translate-x-1" />
+                            <Icon icon="lucide:arrow-left" className="mr-2 size-4 transition-transform group-hover:-translate-x-1" />
                             Previous
                           </div>
                           <h4 className="font-serif text-xl font-medium leading-snug tracking-tight text-foreground line-clamp-2">
@@ -223,7 +223,7 @@ export default async function ArticlePage({
                         >
                           <div className="flex items-center justify-end text-xs font-medium uppercase tracking-wider text-muted-foreground">
                             Next
-                            <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
+                            <Icon icon="lucide:arrow-right" className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
                           </div>
                           <h4 className="font-serif text-xl font-medium leading-snug tracking-tight text-foreground line-clamp-2">
                             {nextPost.title}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Check, Copy } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 
 export function CodeBlock({ children, ...props }: any) {
   // rehype-pretty-code adds data-language to the pre tag
@@ -42,9 +42,9 @@ export function CodeBlock({ children, ...props }: any) {
           aria-label="Copy code"
         >
           {isCopied ? (
-            <Check className="h-4 w-4 text-green-400" />
+            <Icon icon="lucide:check" className="h-4 w-4 text-green-400" />
           ) : (
-            <Copy className="h-4 w-4" />
+            <Icon icon="lucide:copy" className="h-4 w-4" />
           )}
         </button>
       </div>

@@ -1,6 +1,6 @@
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
-import { getAllPosts } from "@/lib/posts"
+import Link from "next/link";
+import { Icon } from "@/components/ui/icon";
+import { getAllPosts } from "@/lib/posts";
 
 /**
  * A compact index rather than the full archive — the homepage should get
@@ -11,9 +11,9 @@ export async function LatestArticles({ limit = 3 }: { limit?: number }) {
   // keeps the homepage from showing the same article twice.
   const posts = (await getAllPosts())
     .filter((post) => !post.featured)
-    .slice(0, limit)
+    .slice(0, limit);
 
-  if (posts.length === 0) return null
+  if (posts.length === 0) return null;
 
   return (
     <section aria-labelledby="latest-heading" className="w-full">
@@ -29,7 +29,7 @@ export async function LatestArticles({ limit = 3 }: { limit?: number }) {
           className="group inline-flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
           All articles
-          <ArrowRight className="ml-1.5 size-4 transition-transform group-hover:translate-x-0.5" />
+          <Icon icon="lucide:arrow-right" className="ml-1.5 size-4 transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
 
@@ -61,5 +61,5 @@ export async function LatestArticles({ limit = 3 }: { limit?: number }) {
         ))}
       </ul>
     </section>
-  )
+  );
 }

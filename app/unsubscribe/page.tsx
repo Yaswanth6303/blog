@@ -2,7 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { BlogHeader } from "@/components/layout/blog-header";
 import { BlogFooter } from "@/components/layout/blog-footer";
-import { CheckCircle2, AlertCircle } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 
 export const metadata = {
   title: "Unsubscribe",
@@ -39,7 +39,7 @@ export default async function UnsubscribePage({
           {subscriber ? (
             <>
               <span className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-green-500/10 text-green-600 dark:text-green-400">
-                <CheckCircle2 className="size-6" aria-hidden="true" />
+                <Icon icon="lucide:check-circle-2" className="size-6" aria-hidden="true" />
               </span>
               <h1 className="font-serif text-2xl font-bold tracking-tight">
                 You have been unsubscribed
@@ -58,7 +58,7 @@ export default async function UnsubscribePage({
           ) : (
             <>
               <span className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-destructive/10 text-destructive">
-                <AlertCircle className="size-6" aria-hidden="true" />
+                <Icon icon="lucide:alert-circle" className="size-6" aria-hidden="true" />
               </span>
               <h1 className="font-serif text-2xl font-bold tracking-tight">
                 This link is not valid

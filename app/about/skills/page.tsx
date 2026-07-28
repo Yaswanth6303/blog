@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
+import { TechIcon } from "@/components/shared/tech-icon";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/shared/motion";
 
 export const metadata = {
@@ -26,29 +27,6 @@ const stackCategories = [
   },
 ];
 
-const skillIcons: Record<string, string> = {
-  Java: "devicon-java-plain",
-  Go: "devicon-go-original-wordmark",
-  TypeScript: "devicon-typescript-plain",
-  Python: "devicon-python-plain",
-  Rust: "devicon-rust-plain",
-  React: "devicon-react-original",
-  "Next.js": "devicon-nextjs-plain",
-  "Tailwind CSS": "devicon-tailwindcss-plain",
-  "Node.js": "devicon-nodejs-plain",
-  "Express.js": "devicon-express-original",
-  Bun: "devicon-bun-plain",
-  PostgreSQL: "devicon-postgresql-plain",
-  MongoDB: "devicon-mongodb-plain",
-  Docker: "devicon-docker-plain",
-  Kubernetes: "devicon-kubernetes-plain",
-  Linux: "devicon-linux-plain",
-  Git: "devicon-git-plain",
-  "CI/CD": "devicon-githubactions-plain",
-  HTML: "devicon-html5-plain",
-  CSS: "devicon-css3-plain",
-};
-
 export default function SkillsPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 md:px-6 md:py-16">
@@ -57,7 +35,7 @@ export default function SkillsPage() {
           href="/about"
           className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
-          <ArrowLeft className="size-4" />
+          <Icon icon="lucide:arrow-left" className="size-4" />
           Back to Menu
         </Link>
 
@@ -89,18 +67,15 @@ export default function SkillsPage() {
                   {category.title}
                 </h3>
                 <div className="flex flex-wrap gap-2.5">
-                  {category.skills.map((skill) => {
-                    const icon = skillIcons[skill];
-                    return (
-                      <span
-                        key={skill}
-                        className="inline-flex items-center rounded-md bg-secondary/60 px-2.5 py-1.5 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary"
-                      >
-                        {icon && <i className={`${icon} mr-2 text-base`} />}
-                        {skill}
-                      </span>
-                    );
-                  })}
+                  {category.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="inline-flex items-center rounded-md bg-secondary/60 px-2.5 py-1.5 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary"
+                    >
+                      <TechIcon name={skill} className="mr-2 text-base" />
+                      {skill}
+                    </span>
+                  ))}
                 </div>
               </StaggerItem>
             ))}

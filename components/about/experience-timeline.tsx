@@ -1,10 +1,10 @@
-import { Briefcase, GraduationCap } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { type ExperienceEntry } from "@/lib/experience";
 import { StaggerContainer, StaggerItem } from "@/components/shared/motion";
 
-const icons: Record<ExperienceEntry["kind"], typeof Briefcase> = {
-  work: Briefcase,
-  education: GraduationCap,
+const icons: Record<ExperienceEntry["kind"], string> = {
+  work: "lucide:briefcase",
+  education: "lucide:graduation-cap",
 };
 
 export function ExperienceTimeline({ items }: { items: ExperienceEntry[] }) {
@@ -16,7 +16,6 @@ export function ExperienceTimeline({ items }: { items: ExperienceEntry[] }) {
     // invalid markup.
     <StaggerContainer role="list" className="relative mt-8">
       {items.map((entry, index) => {
-        const Icon = icons[entry.kind];
         const isLast = index === items.length - 1;
 
         return (
@@ -35,7 +34,11 @@ export function ExperienceTimeline({ items }: { items: ExperienceEntry[] }) {
             )}
 
             <span className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-secondary text-foreground">
-              <Icon className="size-4.5" aria-hidden="true" />
+              <Icon
+                icon={icons[entry.kind]}
+                className="size-4.5"
+                aria-hidden="true"
+              />
             </span>
 
             <div className="min-w-0 flex-1 pt-1">

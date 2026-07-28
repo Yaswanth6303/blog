@@ -7,7 +7,6 @@ import { ScrollToTop } from "@/components/shared/scroll-to-top";
 import { CommandMenu } from "@/components/shared/command-menu";
 import { getAllCategories, getAllPosts } from "@/lib/posts";
 import { getAllProjects } from "@/lib/projects";
-import "devicon/devicon.min.css";
 import "./globals.css";
 
 // Inlined at build time, so it has to be set in the build environment

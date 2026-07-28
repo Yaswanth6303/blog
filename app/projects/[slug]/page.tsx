@@ -1,13 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import {
-  ArrowLeft,
-  ArrowUpRight,
-  CalendarDays,
-  GitBranch,
-  UserRound,
-} from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { BlogHeader } from "@/components/layout/blog-header";
 import { BlogFooter } from "@/components/layout/blog-footer";
 
@@ -75,16 +69,16 @@ export default async function ProjectPage({
 
   // Status stays as the pill in the hero rather than repeating as a row here.
   const meta = [
-    project.role && { label: "Role", value: project.role, icon: UserRound },
+    project.role && { label: "Role", value: project.role, icon: "lucide:user-round" },
     project.period && {
       label: "Timeline",
       value: project.period,
-      icon: CalendarDays,
+      icon: "lucide:calendar-days",
     },
   ].filter(Boolean) as {
     label: string;
     value: string;
-    icon: typeof CalendarDays;
+    icon: string;
   }[];
 
   return (
@@ -100,7 +94,7 @@ export default async function ProjectPage({
                 href="/projects"
                 className="inline-flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
-                <ArrowLeft className="mr-2 size-4" />
+                <Icon icon="lucide:arrow-left" className="mr-2 size-4" />
                 Back to projects
               </Link>
             </div>
@@ -136,7 +130,7 @@ export default async function ProjectPage({
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
                       >
-                        <ArrowUpRight className="size-4" aria-hidden="true" />
+                        <Icon icon="lucide:arrow-up-right" className="size-4" aria-hidden="true" />
                         View live
                       </a>
                     )}
@@ -147,7 +141,7 @@ export default async function ProjectPage({
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 rounded-lg border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
                       >
-                        <GitBranch className="size-4" aria-hidden="true" />
+                        <Icon icon="lucide:git-branch" className="size-4" aria-hidden="true" />
                         Source code
                       </a>
                     )}
@@ -171,7 +165,6 @@ export default async function ProjectPage({
                 {meta.length > 0 && (
                   <dl className="space-y-6 md:border-r md:border-border md:pr-12">
                     {meta.map((item) => {
-                      const Icon = item.icon;
 
                       return (
                         <div
@@ -179,7 +172,11 @@ export default async function ProjectPage({
                           className="flex items-center gap-4"
                         >
                           <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-muted-foreground">
-                            <Icon className="size-4" aria-hidden="true" />
+                            <Icon
+                              icon={item.icon}
+                              className="size-4"
+                              aria-hidden="true"
+                            />
                           </span>
 
                           <div className="min-w-0 flex-1">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUp } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -44,7 +44,7 @@ export function ScrollToTop() {
             onClick={scrollToTop}
             aria-label="Scroll to top"
           >
-            <ArrowUp className="size-5" />
+            <Icon icon="lucide:arrow-up" className="size-5" />
           </Button>
         </motion.div>
       )}

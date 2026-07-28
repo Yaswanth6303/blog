@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { FolderGit2 } from "lucide-react"
+import { Icon } from "@/components/ui/icon"
 import { BlogHeader } from "@/components/layout/blog-header"
 import { BlogFooter } from "@/components/layout/blog-footer"
 import { ProjectCard } from "@/components/projects/project-card"
@@ -43,7 +43,7 @@ export default async function ProjectsPage() {
           {projects.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card py-24 text-center">
               <div className="rounded-full bg-secondary p-4">
-                <FolderGit2 className="size-8 text-muted-foreground" />
+                <Icon icon="lucide:folder-git-2" className="size-8 text-muted-foreground" />
               </div>
               <h2 className="mt-4 text-xl font-semibold tracking-tight">
                 No projects published yet

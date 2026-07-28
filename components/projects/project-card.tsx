@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { ExternalLink, CalendarDays } from "lucide-react";
-import { Github } from "@/components/shared/icons";
+import { Icon } from "@/components/ui/icon";
 import { TechIcon } from "@/components/shared/tech-icon";
 import type { Project } from "@/lib/projects";
 
@@ -57,7 +56,7 @@ export function ProjectCard({
             rel="noopener noreferrer"
             className="absolute right-3 top-3 z-10 flex size-8 items-center justify-center rounded-lg bg-black/60 text-white backdrop-blur-md transition-colors hover:bg-black/80 border border-white/10"
           >
-            <ExternalLink className="size-4" />
+            <Icon icon="lucide:external-link" className="size-4" />
             <span className="sr-only">Live demo</span>
           </a>
         )}
@@ -109,7 +108,7 @@ export function ProjectCard({
                 rel="noopener noreferrer"
                 className="relative z-10 flex items-center gap-1.5 text-xs font-medium text-foreground transition-colors hover:text-muted-foreground"
               >
-                <Github className="size-3.5" aria-hidden="true" />
+                <Icon icon="simple-icons:github" className="size-3.5" aria-hidden="true" />
                 Source
               </a>
             )}
@@ -120,7 +119,7 @@ export function ProjectCard({
                 rel="noopener noreferrer"
                 className="relative z-10 flex items-center gap-1.5 text-xs font-medium text-foreground transition-colors hover:text-muted-foreground"
               >
-                <ExternalLink className="size-3.5" aria-hidden="true" />
+                <Icon icon="lucide:external-link" className="size-3.5" aria-hidden="true" />
                 Live
               </a>
             )}
@@ -167,7 +166,7 @@ function ProjectCardFeature({ project }: { project: Project }) {
 
           {project.period && (
             <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-              <CalendarDays className="size-3.5" aria-hidden="true" />
+              <Icon icon="lucide:calendar-days" className="size-3.5" aria-hidden="true" />
               {project.period}
             </span>
           )}
@@ -215,7 +214,7 @@ function ProjectCardFeature({ project }: { project: Project }) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
               >
-                <Github className="size-4" aria-hidden="true" />
+                <Icon icon="simple-icons:github" className="size-4" aria-hidden="true" />
                 Source
                 <span className="sr-only"> code for {project.title}</span>
               </a>
@@ -227,7 +226,7 @@ function ProjectCardFeature({ project }: { project: Project }) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
               >
-                <ExternalLink className="size-4" aria-hidden="true" />
+                <Icon icon="lucide:external-link" className="size-4" aria-hidden="true" />
                 Live Demo
                 <span className="sr-only"> of {project.title}</span>
               </a>

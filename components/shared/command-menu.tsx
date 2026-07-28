@@ -3,21 +3,7 @@
 import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useTheme } from "next-themes"
-import {
-  ArrowUp,
-  CornerDownLeft,
-  FileText,
-  FolderGit2,
-  FolderOpen,
-  Home,
-  Info,
-  Laptop,
-  Link2,
-  Mail,
-  Moon,
-  Newspaper,
-  Sun,
-} from "lucide-react"
+import { Icon } from "@/components/ui/icon"
 
 import {
   Command,
@@ -56,12 +42,12 @@ export type SearchProject = {
 }
 
 const pages = [
-  { label: "Home", href: "/", icon: Home },
-  { label: "Articles", href: "/articles", icon: Newspaper },
-  { label: "Projects", href: "/projects", icon: FolderGit2 },
-  { label: "Categories", href: "/categories", icon: FolderOpen },
-  { label: "About", href: "/about", icon: Info },
-  { label: "Contact", href: "/contact", icon: Mail },
+  { label: "Home", href: "/", icon: "lucide:home" },
+  { label: "Articles", href: "/articles", icon: "lucide:newspaper" },
+  { label: "Projects", href: "/projects", icon: "lucide:folder-git-2" },
+  { label: "Categories", href: "/categories", icon: "lucide:folder-open" },
+  { label: "About", href: "/about", icon: "lucide:info" },
+  { label: "Contact", href: "/contact", icon: "lucide:mail" },
 ]
 
 /**
@@ -147,7 +133,7 @@ export function CommandMenu({
                   keywords={[item.category ?? "", ...(item.tags ?? [])]}
                   onSelect={() => runCommand(() => router.push(item.href))}
                 >
-                  <FileText className="text-muted-foreground" />
+                  <Icon icon="lucide:file-text" className="text-muted-foreground" />
                   <span className="flex min-w-0 flex-1 flex-col">
                     <span className="truncate font-medium">{item.title}</span>
                     {item.readingTime && (
@@ -177,7 +163,7 @@ export function CommandMenu({
                     keywords={project.stack ?? []}
                     onSelect={() => runCommand(() => router.push(project.href))}
                   >
-                    <FolderGit2 className="text-muted-foreground" />
+                    <Icon icon="lucide:folder-git-2" className="text-muted-foreground" />
                     <span className="flex min-w-0 flex-1 flex-col">
                       <span className="truncate font-medium">
                         {project.title}
@@ -209,7 +195,7 @@ export function CommandMenu({
                     value={`category ${category.name}`}
                     onSelect={() => runCommand(() => router.push(category.href))}
                   >
-                    <FolderOpen className="text-muted-foreground" />
+                    <Icon icon="lucide:folder-open" className="text-muted-foreground" />
                     <span className="flex-1 truncate font-medium">
                       {category.name}
                     </span>
@@ -226,14 +212,13 @@ export function CommandMenu({
 
           <CommandGroup heading="Go to">
             {pages.map((page) => {
-              const Icon = page.icon
               return (
                 <CommandItem
                   key={page.href}
                   value={`page ${page.label}`}
                   onSelect={() => runCommand(() => router.push(page.href))}
                 >
-                  <Icon className="text-muted-foreground" />
+                  <Icon icon={page.icon} className="text-muted-foreground" />
                   <span className="flex-1 truncate font-medium">
                     {page.label}
                   </span>
@@ -253,9 +238,9 @@ export function CommandMenu({
               }
             >
               {isDark ? (
-                <Sun className="text-muted-foreground" />
+                <Icon icon="lucide:sun" className="text-muted-foreground" />
               ) : (
-                <Moon className="text-muted-foreground" />
+                <Icon icon="lucide:moon" className="text-muted-foreground" />
               )}
               <span className="flex-1 truncate font-medium">
                 {isDark ? "Switch to light mode" : "Switch to dark mode"}
@@ -266,7 +251,7 @@ export function CommandMenu({
               value="use system theme automatic"
               onSelect={() => runCommand(() => setTheme("system"))}
             >
-              <Laptop className="text-muted-foreground" />
+              <Icon icon="lucide:laptop" className="text-muted-foreground" />
               <span className="flex-1 truncate font-medium">
                 Use system theme
               </span>
@@ -280,7 +265,7 @@ export function CommandMenu({
                 })
               }
             >
-              <Link2 className="text-muted-foreground" />
+              <Icon icon="lucide:link-2" className="text-muted-foreground" />
               <span className="flex-1 truncate font-medium">
                 Copy link to this page
               </span>
@@ -292,7 +277,7 @@ export function CommandMenu({
                 runCommand(() => window.scrollTo({ top: 0, behavior: "smooth" }))
               }
             >
-              <ArrowUp className="text-muted-foreground" />
+              <Icon icon="lucide:arrow-up" className="text-muted-foreground" />
               <span className="flex-1 truncate font-medium">Scroll to top</span>
             </CommandItem>
           </CommandGroup>
@@ -300,7 +285,7 @@ export function CommandMenu({
 
         <CommandFooter>
           <span className="flex items-center gap-1.5">
-            <CornerDownLeft className="size-3" aria-hidden="true" />
+            <Icon icon="lucide:corner-down-left" className="size-3" aria-hidden="true" />
             to select
           </span>
           <span className="hidden sm:inline">↑↓ to navigate</span>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Rss, Mail } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { ShareButton } from "@/components/shared/share-button";
 import { getAllCategories } from "@/lib/posts";
 
@@ -66,14 +66,14 @@ export async function BlogFooter() {
                 aria-label="Subscribe to the newsletter"
                 className={iconButtonClass}
               >
-                <Mail className="size-4" aria-hidden="true" />
+                <Icon icon="lucide:mail" className="size-4" aria-hidden="true" />
               </Link>
               <a
                 href="/rss.xml"
                 aria-label="RSS feed"
                 className={iconButtonClass}
               >
-                <Rss className="size-4" aria-hidden="true" />
+                <Icon icon="lucide:rss" className="size-4" aria-hidden="true" />
               </a>
             </div>
           </div>

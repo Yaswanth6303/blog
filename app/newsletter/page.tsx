@@ -4,7 +4,7 @@ import { BlogFooter } from "@/components/layout/blog-footer";
 import { NewsletterCta } from "@/components/shared/newsletter-cta";
 import { FadeIn } from "@/components/shared/motion";
 import { LatestArticles } from "@/components/articles/latest-articles";
-import { Mail, Zap, ShieldCheck } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 
 export const metadata: Metadata = {
   title: "Newsletter",
@@ -25,7 +25,7 @@ export default function NewsletterPage() {
             <div className="grid gap-10 sm:grid-cols-3">
               <div className="flex flex-col items-center text-center">
                 <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <Zap className="size-6" />
+                  <Icon icon="lucide:zap" className="size-6" />
                 </div>
                 <h3 className="mb-2 text-lg font-semibold">Weekly Insights</h3>
                 <p className="text-sm text-muted-foreground">
@@ -34,7 +34,7 @@ export default function NewsletterPage() {
               </div>
               <div className="flex flex-col items-center text-center">
                 <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <Mail className="size-6" />
+                  <Icon icon="lucide:mail" className="size-6" />
                 </div>
                 <h3 className="mb-2 text-lg font-semibold">Early Access</h3>
                 <p className="text-sm text-muted-foreground">
@@ -43,7 +43,7 @@ export default function NewsletterPage() {
               </div>
               <div className="flex flex-col items-center text-center">
                 <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <ShieldCheck className="size-6" />
+                  <Icon icon="lucide:shield-check" className="size-6" />
                 </div>
                 <h3 className="mb-2 text-lg font-semibold">Zero Spam</h3>
                 <p className="text-sm text-muted-foreground">

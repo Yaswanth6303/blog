@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { FadeIn } from "@/components/shared/motion";
 import { ExperienceTimeline } from "@/components/about/experience-timeline";
 import { workExperience } from "@/lib/experience";
@@ -19,7 +19,7 @@ export default function ExperiencePage() {
           href="/about"
           className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
-          <ArrowLeft className="size-4" />
+          <Icon icon="lucide:arrow-left" className="size-4" />
           Back to Menu
         </Link>
 

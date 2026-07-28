@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, CheckCircle2, AlertCircle, Info } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -49,7 +49,7 @@ export function NewsletterCta() {
     <section id="newsletter" aria-labelledby="newsletter-heading">
       <div className="rounded-xl border border-border bg-secondary px-6 py-10 text-center md:px-12 md:py-14">
         <span className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground">
-          <Mail className="size-5" aria-hidden="true" />
+          <Icon icon="lucide:mail" className="size-5" aria-hidden="true" />
         </span>
         <h2
           id="newsletter-heading"
@@ -65,7 +65,7 @@ export function NewsletterCta() {
 
         {status === "success" ? (
           <div className="mx-auto mt-6 flex max-w-md items-center justify-center gap-2 rounded-md bg-green-500/10 px-4 py-3 text-sm font-medium text-green-600 dark:text-green-400">
-            <CheckCircle2 className="size-4" />
+            <Icon icon="lucide:check-circle-2" className="size-4" />
             {message}
           </div>
         ) : (
@@ -94,7 +94,7 @@ export function NewsletterCta() {
             role="status"
             className="mx-auto mt-3 flex max-w-md items-center justify-center gap-2 text-sm font-medium text-foreground"
           >
-            <Info className="size-4 shrink-0" aria-hidden="true" />
+            <Icon icon="lucide:info" className="size-4 shrink-0" aria-hidden="true" />
             {message}
           </div>
         )}
@@ -104,7 +104,7 @@ export function NewsletterCta() {
             role="alert"
             className="mx-auto mt-3 flex max-w-md items-center justify-center gap-2 text-sm font-medium text-destructive"
           >
-            <AlertCircle className="size-4 shrink-0" aria-hidden="true" />
+            <Icon icon="lucide:alert-circle" className="size-4 shrink-0" aria-hidden="true" />
             {message}
           </div>
         )}

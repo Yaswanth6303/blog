@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { BlogHeader } from "@/components/layout/blog-header";
 import { FeaturedPost } from "@/components/articles/featured-post";
 import { FeaturedProjects } from "@/components/projects/featured-projects";
@@ -49,7 +49,7 @@ export default function Page() {
                   className="group inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
                 >
                   View my work
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                  <Icon icon="lucide:arrow-right" className="size-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
                 <Link
                   href="/articles"

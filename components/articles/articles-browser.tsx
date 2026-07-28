@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { Search, X, FileText } from "lucide-react"
+import { Icon } from "@/components/ui/icon"
 import type { Post } from "@/lib/posts"
 import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
@@ -94,7 +94,7 @@ export function ArticlesBrowser({
     <div>
       {/* Search */}
       <div className="relative mb-6">
-        <Search
+        <Icon icon="lucide:search"
           className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
           aria-hidden="true"
         />
@@ -136,7 +136,7 @@ export function ArticlesBrowser({
               onClick={clearFilters}
               className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
-              <X className="size-3.5" aria-hidden="true" />
+              <Icon icon="lucide:x" className="size-3.5" aria-hidden="true" />
               Clear
             </button>
           )}

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import { FadeIn } from "@/components/shared/motion";
 
 const menuItems = [
@@ -62,7 +62,7 @@ export default function AboutPage() {
                   {item.description}
                 </p>
               </div>
-              <ChevronRight className="size-5 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+              <Icon icon="lucide:chevron-right" className="size-5 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </Link>
           ))}
         </div>

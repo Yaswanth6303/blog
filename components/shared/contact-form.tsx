@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 
 const topics = [
   "General inquiry",
@@ -58,7 +58,7 @@ export function ContactForm() {
         className="flex flex-col items-center justify-center rounded-xl border border-border bg-secondary px-6 py-14 text-center"
       >
         <span className="mb-4 flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground">
-          <CheckCircle2 className="size-6" aria-hidden="true" />
+          <Icon icon="lucide:check-circle-2" className="size-6" aria-hidden="true" />
         </span>
         <h2 className="font-serif text-2xl font-bold tracking-tight">
           Message sent
@@ -92,7 +92,7 @@ export function ContactForm() {
       </h2>
       {error && (
         <div className="mt-4 flex items-center gap-2 rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-          <AlertCircle className="size-4" />
+          <Icon icon="lucide:alert-circle" className="size-4" />
           {error}
         </div>
       )}
@@ -157,7 +157,7 @@ export function ContactForm() {
         <Button type="submit" className="sm:w-fit" disabled={isSubmitting}>
           {isSubmitting ? (
             <>
-              <Loader2 className="mr-2 size-4 animate-spin" />
+              <Icon icon="lucide:loader-2" className="mr-2 size-4 animate-spin" />
               Sending...
             </>
           ) : (
