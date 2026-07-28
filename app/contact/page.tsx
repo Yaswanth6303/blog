@@ -42,7 +42,7 @@ export default function ContactPage() {
           {/* Intro */}
           <FadeIn direction="down" className="max-w-2xl">
             <p className="text-sm font-medium uppercase tracking-wide text-primary">
-              Contact us
+              Contact Me
             </p>
             <h1 className="mt-3 text-balance font-serif text-4xl font-bold tracking-tight md:text-5xl">
               Let&apos;s start a conversation

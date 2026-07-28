@@ -88,7 +88,7 @@ export function ContactForm() {
         id="contact-form-heading"
         className="font-serif text-xl font-semibold tracking-tight"
       >
-        Send us a message
+        Send me a message
       </h2>
       {error && (
         <div className="mt-4 flex items-center gap-2 rounded-md bg-destructive/10 p-3 text-sm text-destructive">
