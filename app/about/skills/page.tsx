@@ -14,7 +14,7 @@ const stackCategories = [
   },
   {
     title: "Frontend",
-    skills: ["React", "Next.js", "Tailwind CSS"],
+    skills: ["React", "Next.js", "Tailwind CSS", "HTML", "CSS"],
   },
   {
     title: "Backend & DBs",
@@ -45,6 +45,8 @@ const skillIcons: Record<string, string> = {
   Linux: "devicon-linux-plain",
   Git: "devicon-git-plain",
   "CI/CD": "devicon-githubactions-plain",
+  HTML: "devicon-html5-plain",
+  CSS: "devicon-css3-plain",
 };
 
 export default function SkillsPage() {

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import { Search, X, FileText } from "lucide-react"
 import type { Post } from "@/lib/posts"
 import Link from "next/link"
+import { sortWithOrderAndDate } from "@/lib/utils"
 
 export function ArticlesBrowser({ allPosts, allTags }: { allPosts: Post[], allTags: string[] }) {
   const [query, setQuery] = useState("")
@@ -24,7 +25,7 @@ export function ArticlesBrowser({ allPosts, allTags }: { allPosts: Post[], allTa
   }
 
   function toggleTag(tag: string) {
-    setActiveTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
+    setActiveTags((prev) => (prev.includes(tag) ? [] : [tag]))
   }
 
   function clearFilters() {
@@ -34,7 +35,9 @@ export function ArticlesBrowser({ allPosts, allTags }: { allPosts: Post[], allTa
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    return allPosts.filter((post) => {
+    
+    // First, filter the results
+    let results = allPosts.filter((post) => {
       const matchesQuery =
         q === "" ||
         post.title?.toLowerCase().includes(q) ||
@@ -46,7 +49,16 @@ export function ArticlesBrowser({ allPosts, allTags }: { allPosts: Post[], allTa
 
       return matchesQuery && matchesTags
     })
-  }, [query, activeTags])
+
+    // Then, apply dynamic sorting
+    if (activeTags.length > 0) {
+      // If a tag is selected, sort by explicitly defined order (1, 2, 3...)
+      results = [...results].sort(sortWithOrderAndDate)
+    }
+    // If no tag is selected, we keep the default sort (newest first) from allPosts
+
+    return results
+  }, [query, activeTags, allPosts])
 
   const hasFilters = query.trim() !== "" || activeTags.length > 0
 

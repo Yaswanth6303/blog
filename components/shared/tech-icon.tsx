@@ -1,3 +1,5 @@
+import { customIcons } from "./icons"
+
 const icons: Record<string, string> = {
   nextjs: "devicon-nextjs-plain",
   react: "devicon-react-original",
@@ -15,7 +17,6 @@ const icons: Record<string, string> = {
   zod: "",
   trpc: "",
   graphql: "devicon-graphql-plain",
-
   nodejs: "devicon-nodejs-plain",
   node: "devicon-nodejs-plain",
   bun: "devicon-bun-plain",
@@ -31,7 +32,6 @@ const icons: Record<string, string> = {
   fastapi: "devicon-fastapi-plain",
   spring: "devicon-spring-plain",
   springboot: "devicon-spring-plain",
-
   postgresql: "devicon-postgresql-plain",
   postgres: "devicon-postgresql-plain",
   prisma: "devicon-prisma-original",
@@ -40,7 +40,6 @@ const icons: Record<string, string> = {
   redis: "devicon-redis-plain",
   supabase: "devicon-supabase-plain",
   firebase: "devicon-firebase-plain",
-
   docker: "devicon-docker-plain",
   kubernetes: "devicon-kubernetes-plain",
   k8s: "devicon-kubernetes-plain",
@@ -66,7 +65,14 @@ export function TechIcon({
   name: string
   className?: string
 }) {
-  const icon = icons[normalize(name)]
+  const normalized = normalize(name)
+  
+  const CustomIcon = customIcons[normalized as keyof typeof customIcons]
+  if (CustomIcon) {
+    return <CustomIcon className={`shrink-0 ${className}`} aria-hidden="true" />
+  }
+
+  const icon = icons[normalized]
   if (!icon) return null
 
   return (

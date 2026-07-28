@@ -6,6 +6,7 @@ import { ArticlesBrowser } from "@/components/articles/articles-browser"
 import { getAllPosts, getAllTags, getAllCategories } from "@/lib/posts"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
+import { sortWithOrderAndDate } from "@/lib/utils"
 
 export async function generateStaticParams() {
   const categories = await getAllCategories()
@@ -30,11 +31,11 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   const allPosts = await getAllPosts()
   const allTags = await getAllTags()
   
-  // Filter posts by category
+  // Filter posts by category and sort by order
   const decodedCategory = decodeURIComponent(resolvedParams.category).toLowerCase()
-  const categoryPosts = allPosts.filter(
-    (post) => post.category?.toLowerCase() === decodedCategory
-  )
+  const categoryPosts = allPosts
+    .filter((post) => post.category?.toLowerCase() === decodedCategory)
+    .sort(sortWithOrderAndDate)
   
   if (categoryPosts.length === 0) {
     notFound()

@@ -8,11 +8,10 @@ import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Categories is reachable from the articles browser and stays crawlable at
-// /categories — it just no longer costs a slot in the primary nav.
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Articles", href: "/articles" },
+  { label: "Categories", href: "/categories" },
   { label: "Projects", href: "/projects" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
+import { sortWithOrderAndDate } from './utils'
 
 export type ProjectStatus = 'shipped' | 'in-progress' | 'archived'
 
@@ -22,6 +23,7 @@ export type Project = {
   role?: string
   status: ProjectStatus
   featured?: boolean
+  order?: number
 }
 
 const projectsDirectory = path.join(process.cwd(), 'content/projects')
@@ -63,9 +65,10 @@ export async function getAllProjects(): Promise<Project[]> {
         role: data.role || undefined,
         status,
         featured: data.featured || false,
+        order: data.order,
       } as Project
     })
-    .sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1))
+    .sort(sortWithOrderAndDate)
 }
 
 export async function getProjectBySlug(

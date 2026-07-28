@@ -26,15 +26,15 @@ const statusLabels: Record<Project["status"], string> = {
 };
 
 const statusStyles: Record<Project["status"], string> = {
-  shipped: "border-border bg-secondary text-secondary-foreground",
-  "in-progress": "border-primary/30 bg-primary/10 text-foreground",
-  archived: "border-border bg-transparent text-muted-foreground",
+  shipped: "border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+  "in-progress": "border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400",
+  archived: "border-rose-500/30 bg-rose-500/10 text-rose-600 dark:text-rose-400",
 };
 
 const statusDots: Record<Project["status"], string> = {
   shipped: "bg-emerald-500",
   "in-progress": "bg-amber-500",
-  archived: "bg-muted-foreground/50",
+  archived: "bg-rose-500",
 };
 
 export async function generateMetadata({

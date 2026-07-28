@@ -17,6 +17,7 @@ export type Post = {
     avatar: string
   }
   featured?: boolean
+  order?: number
 }
 
 const blogsDirectory = path.join(process.cwd(), 'content/blogs')
@@ -54,6 +55,7 @@ export async function getAllPosts(): Promise<Post[]> {
           avatar: matterResult.data.authorAvatar,
         },
         featured: matterResult.data.featured || false,
+        order: matterResult.data.order,
       } as Post
     })
     .sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1))
