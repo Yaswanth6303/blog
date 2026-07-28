@@ -74,7 +74,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         </section>
 
         <div className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-          <ArticlesBrowser allPosts={categoryPosts} allTags={allTags} />
+          <ArticlesBrowser allPosts={categoryPosts} allTags={allTags} showTags={false} />
         </div>
       </main>
 

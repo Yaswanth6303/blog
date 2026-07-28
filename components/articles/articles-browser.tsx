@@ -5,8 +5,17 @@ import { Search, X, FileText } from "lucide-react"
 import type { Post } from "@/lib/posts"
 import Link from "next/link"
 import { sortWithOrderAndDate } from "@/lib/utils"
+import { motion, AnimatePresence } from "framer-motion"
 
-export function ArticlesBrowser({ allPosts, allTags }: { allPosts: Post[], allTags: string[] }) {
+export function ArticlesBrowser({ 
+  allPosts, 
+  allTags,
+  showTags = true
+}: { 
+  allPosts: Post[], 
+  allTags: string[],
+  showTags?: boolean
+}) {
   const [query, setQuery] = useState("")
   const [activeTags, setActiveTags] = useState<string[]>([])
 
@@ -81,37 +90,39 @@ export function ArticlesBrowser({ allPosts, allTags }: { allPosts: Post[], allTa
       </div>
 
       {/* Tag filters */}
-      <div className="mb-8 flex flex-wrap items-center gap-2">
-        <span className="mr-1 text-sm font-medium text-muted-foreground">Tags:</span>
-        {allTags.map((tag) => {
-          const active = activeTags.includes(tag)
-          return (
+      {showTags && (
+        <div className="mb-8 flex flex-wrap items-center gap-2">
+          <span className="mr-1 text-sm font-medium text-muted-foreground">Tags:</span>
+          {allTags.map((tag) => {
+            const active = activeTags.includes(tag)
+            return (
+              <button
+                key={tag}
+                type="button"
+                aria-pressed={active}
+                onClick={() => toggleTag(tag)}
+                className={
+                  active
+                    ? "rounded-full bg-primary px-3 py-1 text-sm font-medium text-primary-foreground"
+                    : "rounded-full border border-border px-3 py-1 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                }
+              >
+                {tag}
+              </button>
+            )
+          })}
+          {hasFilters && (
             <button
-              key={tag}
               type="button"
-              aria-pressed={active}
-              onClick={() => toggleTag(tag)}
-              className={
-                active
-                  ? "rounded-full bg-primary px-3 py-1 text-sm font-medium text-primary-foreground"
-                  : "rounded-full border border-border px-3 py-1 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-              }
+              onClick={clearFilters}
+              className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
-              {tag}
+              <X className="size-3.5" aria-hidden="true" />
+              Clear
             </button>
-          )
-        })}
-        {hasFilters && (
-          <button
-            type="button"
-            onClick={clearFilters}
-            className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <X className="size-3.5" aria-hidden="true" />
-            Clear
-          </button>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       {/* Results count */}
       <p className="mb-6 text-sm text-muted-foreground" aria-live="polite">
@@ -121,13 +132,19 @@ export function ArticlesBrowser({ allPosts, allTags }: { allPosts: Post[], allTa
 
       {/* Results */}
       {filtered.length > 0 ? (
-        <div className="grid gap-6 sm:grid-cols-2">
-          {filtered.map((post) => (
-            <article
-              key={post.slug}
-              className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-foreground/20"
-            >
-              <Link href={`/articles/${post.slug}`} className="absolute inset-0 z-0">
+        <motion.div layout className="grid gap-6 sm:grid-cols-2">
+          <AnimatePresence mode="popLayout">
+            {filtered.map((post) => (
+              <motion.article
+                layout
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.25 }}
+                key={post.slug}
+                className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-foreground/20"
+              >
+                <Link href={`/articles/${post.slug}`} className="absolute inset-0 z-0">
                 <span className="sr-only">Read article: {post.title}</span>
               </Link>
               <div className="relative aspect-video overflow-hidden">
@@ -173,9 +190,10 @@ export function ArticlesBrowser({ allPosts, allTags }: { allPosts: Post[], allTa
                   </div>
                 </div>
               </div>
-            </article>
-          ))}
-        </div>
+              </motion.article>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       ) : (
         <div className="rounded-xl border border-dashed border-border py-16 text-center">
           <p className="font-serif text-lg font-semibold">No articles found</p>
