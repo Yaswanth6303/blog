@@ -10,6 +10,7 @@ import { FadeIn, ScaleUp } from "@/components/shared/motion";
 import { ReadingProgress } from "@/components/articles/reading-progress";
 import { mdxComponents } from "@/components/articles/mdx-components";
 import { extractHeadings, mdxOptions, proseClassName } from "@/lib/mdx";
+import { sortWithOrderAndDate } from "@/lib/utils";
 
 export async function generateMetadata({
   params,
@@ -36,32 +37,67 @@ export async function generateStaticParams() {
 
 export default async function ArticlePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
+  const fromCategory = typeof resolvedSearchParams.from === 'string' ? resolvedSearchParams.from : null;
+  const tagsFilter = typeof resolvedSearchParams.tags === 'string' ? resolvedSearchParams.tags.split(',') : [];
+  const queryFilter = typeof resolvedSearchParams.q === 'string' ? resolvedSearchParams.q : '';
+  
   const allPosts = await getAllPosts();
-  const currentIndex = allPosts.findIndex(
-    (p) => p.slug === resolvedParams.slug,
-  );
-
-  if (currentIndex === -1) {
+  
+  // Find current post to get its category
+  const initialIndex = allPosts.findIndex((p) => p.slug === resolvedParams.slug);
+  if (initialIndex === -1) {
     notFound();
   }
+  const post = allPosts[initialIndex];
 
-  const post = allPosts[currentIndex];
-  const nextPost =
-    allPosts.length > 1
-      ? currentIndex > 0
-        ? allPosts[currentIndex - 1]
-        : allPosts[allPosts.length - 1]
-      : null;
-  const prevPost =
-    allPosts.length > 1
-      ? currentIndex < allPosts.length - 1
-        ? allPosts[currentIndex + 1]
-        : allPosts[0]
-      : null;
+  let contextPosts = allPosts;
+
+  if (fromCategory && post.category?.toLowerCase() === fromCategory.toLowerCase()) {
+    contextPosts = contextPosts.filter((p) => p.category?.toLowerCase() === fromCategory.toLowerCase());
+  }
+
+  if (queryFilter) {
+    const q = queryFilter.toLowerCase();
+    contextPosts = contextPosts.filter((p) => 
+      p.title?.toLowerCase().includes(q) ||
+      p.excerpt?.toLowerCase().includes(q) ||
+      p.category?.toLowerCase().includes(q) ||
+      p.tags?.some((tag) => tag.toLowerCase().includes(q))
+    );
+  }
+
+  if (tagsFilter.length > 0) {
+    contextPosts = contextPosts.filter((p) => tagsFilter.every((tag) => p.tags.includes(tag)));
+    contextPosts.sort(sortWithOrderAndDate);
+  } else if (fromCategory) {
+    contextPosts.sort(sortWithOrderAndDate);
+  }
+
+  // Construct query string for links
+  const queryParams = new URLSearchParams();
+  if (fromCategory) queryParams.set("from", fromCategory);
+  if (queryFilter) queryParams.set("q", queryFilter);
+  if (tagsFilter.length > 0) queryParams.set("tags", tagsFilter.join(","));
+  const queryString = queryParams.toString() ? `?${queryParams.toString()}` : "";
+  
+  const currentIndex = contextPosts.findIndex((p) => p.slug === resolvedParams.slug);
+
+  let nextPost = null;
+  let prevPost = null;
+
+  if (contextPosts.length > 1) {
+    // Prev is the item visually above in the list (index - 1)
+    prevPost = currentIndex > 0 ? contextPosts[currentIndex - 1] : contextPosts[contextPosts.length - 1];
+    // Next is the item visually below in the list (index + 1)
+    nextPost = currentIndex < contextPosts.length - 1 ? contextPosts[currentIndex + 1] : contextPosts[0];
+  }
 
   const headings = extractHeadings(post.content);
 
@@ -75,11 +111,11 @@ export default async function ArticlePage({
           <FadeIn delay={0.1} className="mx-auto max-w-5xl px-4 md:px-6">
             <div className="mb-8">
               <Link
-                href="/articles"
+                href={fromCategory ? `/categories/${fromCategory}${queryString.replace(`from=${fromCategory}`, '').replace(/^[?&]+/, '?').replace(/&$/, '')}` : `/articles${queryString}`}
                 className="inline-flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 <ArrowLeft className="mr-2 size-4" />
-                Back to articles
+                {fromCategory ? "Back to Categories" : "Back to articles"}
               </Link>
             </div>
 
@@ -162,7 +198,7 @@ export default async function ArticlePage({
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                       {prevPost ? (
                         <Link
-                          href={`/articles/${prevPost.slug}`}
+                          href={`/articles/${prevPost.slug}${queryString}`}
                           className="group flex flex-col gap-3 rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-md"
                         >
                           <div className="flex items-center text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -182,7 +218,7 @@ export default async function ArticlePage({
 
                       {nextPost && (
                         <Link
-                          href={`/articles/${nextPost.slug}`}
+                          href={`/articles/${nextPost.slug}${queryString}`}
                           className="group flex flex-col gap-3 rounded-2xl border border-border bg-card p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-md"
                         >
                           <div className="flex items-center justify-end text-xs font-medium uppercase tracking-wider text-muted-foreground">

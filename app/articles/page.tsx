@@ -4,6 +4,7 @@ import { BlogFooter } from "@/components/layout/blog-footer"
 import { ArticlesBrowser } from "@/components/articles/articles-browser"
 import { getAllPosts, getAllTags } from "@/lib/posts"
 import { FadeIn } from "@/components/shared/motion"
+import { Suspense } from "react"
 
 export const metadata: Metadata = {
   title: "Articles",
@@ -33,7 +34,9 @@ export default async function ArticlesPage() {
         </section>
 
         <FadeIn delay={0.2} className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-          <ArticlesBrowser allPosts={allPosts} allTags={allTags} />
+          <Suspense fallback={<div>Loading articles...</div>}>
+            <ArticlesBrowser allPosts={allPosts} allTags={allTags} />
+          </Suspense>
         </FadeIn>
       </main>
 

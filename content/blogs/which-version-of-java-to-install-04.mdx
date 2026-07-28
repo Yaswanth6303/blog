@@ -1,0 +1,168 @@
+---
+title: "Which version of Java should be installed?"
+excerpt: "A comprehensive guide on the available Java versions, understanding LTS and Non-LTS, the Java release pattern, and deciding which version of Java to install."
+category: "Java"
+tags: ["Programming", "Java"]
+image: "/post-images/which-version-of-java-to-install-04/thumbnail.png"
+date: "July 28, 2026"
+authorName: "Yaswanth Gudivada"
+authorAvatar: "/images/author-avatar.png"
+featured: true
+order: 4
+---
+
+### Agenda
+
+- What are the available Java versions?
+- Why do we have so many Java versions available to download & install?
+- Understand the terms LTS and Non-LTS
+- Which version of Java should be installed?
+
+### What are the available Java versions?
+
+Java has several versions, each offering new features, improvements, and security updates. Below are some of the key Java versions:
+
+1. **Java 1.0** (Released in 1996)
+   - The first version of Java, known as "Java 1," introduced the core functionality and syntax of the language.
+2. **Java 1.1** (Released in 1997)
+   - Added new features such as inner classes, JavaBeans, and the event listener model.
+3. **Java 1.2** (Released in 1998)
+   - Introduced the Java 2 Platform, including the Swing GUI toolkit, collections framework, and Java Plug-in.
+4. **Java 1.3** (Released in 2000)
+   - Introduced performance improvements and several minor features like the HotSpot JVM.
+5. **Java 1.4** (Released in 2002)
+   - Introduced features such as regular expressions, logging API, and the assert keyword.
+6. **Java 5 (1.5)** (Released in 2004)
+   - Major update with features like generics, metadata annotations, enumerated types, and the for-each loop.
+7. **Java 6 (1.6)** (Released in 2006)
+   - Improved performance, introduced the Java Compiler API, and enhanced the Java platform's integration with web services.
+8. **Java 7** (Released in 2011)
+   - Introduced features like the try-with-resources statement, the diamond operator, and improvements in NIO.
+9. **Java 8** (Released in 2014)
+   - A major release with the introduction of lambdas, the Stream API, and the java.time package for modern date-time handling.
+10. **Java 9** (Released in 2017)
+    - Introduced the module system (Project Jigsaw), which helps with better modularization of code.
+11. **Java 10** (Released in 2018)
+    - Introduced local-variable type inference with the `var` keyword and some performance improvements.
+12. **Java 11** (Released in 2018)
+    - A Long-Term Support (LTS) release with features like HTTP client API, and several deprecated and removed features.
+13. **Java 12** (Released in 2019)
+    - Introduced features such as Shenandoah garbage collector and JVM constants API.
+14. **Java 13** (Released in 2019)
+    - Introduced text blocks and other minor updates.
+15. **Java 14** (Released in 2020)
+    - Added features like records (preview) and the helpful null pointer exception.
+16. **Java 15** (Released in 2020)
+    - Introduced sealed classes (preview) and other minor updates.
+17. **Java 16** (Released in 2021)
+    - Introduced features like pattern matching (preview) and the new native memory tracking.
+18. **Java 17** (Released in 2021)
+    - A Long-Term Support (LTS) release with notable features like the enhanced `switch` statement and sealed classes.
+19. **Java 18** (Released in 2022)
+    - Introduced features such as simple web server and UTF-8 by default for string handling.
+20. **Java 19** (Released in 2022)
+    - Introduced new features like record patterns (preview) and virtual threads (preview).
+21. **Java 20** (Released in 2023)
+    - Introduced features like virtual threads (final), scoped values, and more improvements.
+22. **Java 21** (Released in 2023)
+    - A Long-Term Support (LTS) release with enhancements in performance, pattern matching, and other language features.
+
+---
+
+### **Java Architecture Before and After Java 11**
+
+### **Before Java 11**
+
+- Java used to have **JDK (Java Development Kit)** and **JRE (Java Runtime Environment)** as two separate parts.
+- The **JDK** included:
+  - Java Compiler (`javac`)
+  - Development tools
+  - And also the **JRE**
+- The **JRE** included:
+  - Java Virtual Machine (JVM)
+  - Core libraries
+  - Other runtime components
+
+So earlier, if someone just wanted to **run** Java programs (not develop), they could install only the **JRE**.
+
+---
+
+### **After Java 11**
+
+- From **Java 11 onwards**, the **JRE is no longer provided separately**.
+- Now, only the **JDK is available**, and it **includes everything**:
+  - Compiler, tools, **JVM**, and all runtime components.
+
+> So after Java 11, you just install the JDK, and you get everything needed to both run and develop Java applications.
+
+### **Understanding LTS and Non-LTS in Java**
+
+### **LTS – Long-Term Support**
+
+- **LTS** stands for **Long-Term Support**.
+- These Java versions are **officially supported for a longer time** (usually **at least 8 years**).
+- They receive **security updates**, **bug fixes**, and **performance improvements** for many years.
+- Best choice for:
+  - **Enterprises**
+  - **Production environments**
+  - **Stable applications**
+
+> Examples of LTS versions:
+>
+> Java **8**, Java **11**, Java **17**, Java **21**
+
+---
+
+### **Non-LTS – Non-Long-Term Support**
+
+- Non-LTS versions are **interim releases** between LTS versions.
+- They receive support for a **short period** (usually **6 months**).
+- Mostly used by:
+  - Developers who want to try **new features early**
+  - For **learning** or **testing**
+
+> Examples of Non-LTS versions:
+>
+> Java **9**, **10**, **12**, **13**, **14**, **15**, **16**, **18**, **19**, **20**, **22**
+
+---
+
+### **Why Choosing the Right Java Version is Important**
+
+If a company chooses Java as its main platform for development, it must choose the **right version carefully**.
+
+If the company selects a **non-LTS version** (which has short-term support), it may **lose official updates and security patches** after a few months.
+
+> This can become a problem in the long run, especially for large applications, because:
+
+- Bugs and vulnerabilities won’t get fixed.
+- Upgrading frequently can be time-consuming and risky.
+- It may break compatibility with tools and frameworks.
+
+That’s why companies usually prefer **LTS versions** like Java 11, 17, or 21 — to ensure **long-term stability and support**.
+
+### **Java Release Pattern Changed by Oracle**
+
+Earlier, Java versions were released **irregularly** — sometimes a new version came after **4 or more years**, which made planning difficult for developers and companies.
+
+Oracle didn’t like this inconsistent pattern, so they introduced a **new and predictable release cycle**:
+
+---
+
+### **New Java Release Schedule (After Java 9)**
+
+- **Every 6 months:** A new **Non-LTS** version is released
+  (Example: Java 10, 12, 13, 14…)
+- **Every 3 years:** A new **LTS (Long-Term Support)** version is released
+  (Example: Java 11 → Java 17 → Java 21…)
+
+---
+
+This change helps developers:
+
+- Get **new features faster**
+- **Plan upgrades** better
+- Use **stable LTS versions** in production
+- Try out **non-LTS versions** for testing and learning
+
+> This predictable release model started from Java 9 (2017) onwards.

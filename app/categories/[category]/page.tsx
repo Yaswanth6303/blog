@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
+import { Suspense } from "react"
 import { BlogHeader } from "@/components/layout/blog-header"
 import { BlogFooter } from "@/components/layout/blog-footer"
 import { ArticlesBrowser } from "@/components/articles/articles-browser"
@@ -74,7 +75,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         </section>
 
         <div className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-          <ArticlesBrowser allPosts={categoryPosts} allTags={allTags} showTags={false} />
+          <Suspense fallback={<div>Loading articles...</div>}>
+            <ArticlesBrowser allPosts={categoryPosts} allTags={allTags} showTags={false} fromCategory={true} />
+          </Suspense>
         </div>
       </main>
 

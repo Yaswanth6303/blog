@@ -4,42 +4,61 @@ import { useMemo, useState } from "react"
 import { Search, X, FileText } from "lucide-react"
 import type { Post } from "@/lib/posts"
 import Link from "next/link"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { sortWithOrderAndDate } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 
 export function ArticlesBrowser({ 
   allPosts, 
   allTags,
-  showTags = true
+  showTags = true,
+  fromCategory = false
 }: { 
   allPosts: Post[], 
   allTags: string[],
-  showTags?: boolean
+  showTags?: boolean,
+  fromCategory?: boolean
 }) {
-  const [query, setQuery] = useState("")
-  const [activeTags, setActiveTags] = useState<string[]>([])
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
 
-  if (allPosts.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card py-24 text-center">
-        <div className="rounded-full bg-secondary p-4">
-          <FileText className="size-8 text-muted-foreground" />
-        </div>
-        <h3 className="mt-4 text-xl font-semibold tracking-tight">No articles published yet</h3>
-        <p className="mt-2 text-base text-muted-foreground max-w-sm">
-          I am currently working on some exciting new content. Check back soon for fresh essays and articles!
-        </p>
-      </div>
-    )
+  const [query, setQuery] = useState(searchParams.get("q") || "")
+  const [activeTags, setActiveTags] = useState<string[]>(
+    searchParams.get("tags")?.split(",").filter(Boolean) || []
+  )
+
+  // Sync local state to URL query parameters
+  const updateUrlParams = (newQuery: string, newTags: string[]) => {
+    const params = new URLSearchParams()
+    if (newQuery.trim()) {
+      params.set("q", newQuery.trim())
+    }
+    if (newTags.length > 0) {
+      params.set("tags", newTags.join(","))
+    }
+    const newSearch = params.toString()
+    const currentSearch = searchParams.toString()
+    if (newSearch !== currentSearch) {
+      router.replace(`${pathname}?${newSearch}`, { scroll: false })
+    }
+  }
+
+  function handleQueryChange(value: string) {
+    setQuery(value)
+    updateUrlParams(value, activeTags)
   }
 
   function toggleTag(tag: string) {
-    setActiveTags((prev) => (prev.includes(tag) ? [] : [tag]))
+    const newTags = activeTags.includes(tag) ? [] : [tag]
+    setActiveTags(newTags)
+    updateUrlParams(query, newTags)
   }
 
   function clearFilters() {
     setQuery("")
     setActiveTags([])
+    updateUrlParams("", [])
   }
 
   const filtered = useMemo(() => {
@@ -82,7 +101,7 @@ export function ArticlesBrowser({
         <input
           type="search"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => handleQueryChange(e.target.value)}
           placeholder="Search articles by title, topic, or tag..."
           aria-label="Search articles"
           className="w-full rounded-lg border border-border bg-card py-3 pl-11 pr-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-foreground/30 focus:ring-2 focus:ring-ring/40"
@@ -144,7 +163,11 @@ export function ArticlesBrowser({
                 key={post.slug}
                 className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-foreground/20"
               >
-                <Link href={`/articles/${post.slug}`} className="absolute inset-0 z-0">
+                <Link href={`/articles/${post.slug}?${new URLSearchParams({
+                  ...(query.trim() ? { q: query.trim() } : {}),
+                  ...(activeTags.length > 0 ? { tags: activeTags.join(",") } : {}),
+                  ...(fromCategory ? { from: post.category.toLowerCase() } : {})
+                }).toString()}`} className="absolute inset-0 z-0">
                 <span className="sr-only">Read article: {post.title}</span>
               </Link>
               <div className="relative aspect-video overflow-hidden">
