@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Icon } from "@/components/ui/icon";
 import { ShareButton } from "@/components/shared/share-button";
 import { getAllCategories } from "@/lib/posts";
+import { socialLinks } from "@/lib/social";
 
 const iconButtonClass =
   "flex size-9 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:bg-accent hover:text-foreground";
@@ -59,7 +60,23 @@ export async function BlogFooter() {
             <p className="mt-4 max-w-xs text-pretty text-sm leading-relaxed text-muted-foreground">
               Software engineering, system design, and continuous learning.
             </p>
-            <div className="mt-4 flex gap-2">
+            <div className="mt-4 flex flex-wrap justify-center gap-2 md:justify-start">
+              {socialLinks.map((profile) => (
+                <a
+                  key={profile.label}
+                  href={profile.href}
+                  target="_blank"
+                  rel="me noopener noreferrer"
+                  aria-label={`${profile.label} profile`}
+                  className={iconButtonClass}
+                >
+                  <Icon
+                    icon={profile.icon}
+                    className="size-4"
+                    aria-hidden="true"
+                  />
+                </a>
+              ))}
               <ShareButton className={iconButtonClass} />
               <Link
                 href="/newsletter"

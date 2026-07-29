@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "prebuild": "node scripts/build-icons.mjs",
+    "icons": "node scripts/build-icons.mjs",
     "start": "next start",
     "lint": "eslint .",
     "broadcast": "tsx scripts/broadcast.ts",
@@ -28,7 +30,6 @@
     "framer-motion": "^12.42.2",
     "fs": "^0.0.1-security",
     "gray-matter": "^4.0.3",
-    "lucide-react": "^1.16.0",
     "next": "16.2.6",
     "next-mdx-remote": "^6.0.0",
     "next-themes": "^0.4.6",

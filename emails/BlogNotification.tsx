@@ -23,7 +23,7 @@ export const BlogNotificationEmail = ({
   postTitle = "A New Article is Live",
   postExcerpt = "Check out my latest thoughts, ideas, and technical insights in this new article.",
   postSlug = "hello-world",
-  baseUrl = "https://shellcraft.online",
+  baseUrl = "https://yswnth.me",
   unsubscribeUrl,
 }: BlogNotificationProps) => (
   <Html>

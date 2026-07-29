@@ -31,7 +31,10 @@ export default function ResumePage() {
 
           <FadeIn delay={0.1}>
             <div className="flex flex-col items-center justify-center rounded-2xl border border-border bg-card p-12 text-center shadow-sm transition-all hover:border-primary/50">
-              <Icon icon="lucide:file-text" className="mb-4 size-12 text-primary" />
+              <Icon
+                icon="lucide:file-text"
+                className="mb-4 size-12 text-primary"
+              />
               <h2 className="mb-2 text-xl font-semibold tracking-tight">
                 Yaswanth Gudivada - Resume
               </h2>
@@ -41,7 +44,7 @@ export default function ResumePage() {
 
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <a
-                  href="https://shellcraft.online/pdfs/resume.pdf"
+                  href="https://yswnth.me/pdfs/resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
