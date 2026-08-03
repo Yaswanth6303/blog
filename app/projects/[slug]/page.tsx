@@ -141,7 +141,7 @@ export default async function ProjectPage({
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 rounded-lg border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
                       >
-                        <Icon icon="lucide:git-branch" className="size-4" aria-hidden="true" />
+                        <Icon icon="simple-icons:github" className="size-4" aria-hidden="true" />
                         Source code
                       </a>
                     )}
